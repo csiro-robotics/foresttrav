@@ -1,0 +1,15 @@
+<launch>
+  <arg name="robot_name" default="r6" />
+
+
+  <group ns="$(arg robot_name)">
+    <remap from="/tf" to="tf"/>
+    <remap from="/tf_static" to="tf_static"/>
+    <node pkg="lfe_coverage_map" type="lfe_coverage_map_node" name="lfe_coverage_map_node" clear_params="true" output="screen">
+      <!-- <remap from="ohm_cloud_in" to="ohm" />
+      <rosparam param="map_bounds">[-5.0, -5.0, -3.0, 5.0, 5.0, 3.0]</rosparam>
+      <param name="rate" value="1.0"/> -->
+    </node>
+  </group>
+
+</launch>

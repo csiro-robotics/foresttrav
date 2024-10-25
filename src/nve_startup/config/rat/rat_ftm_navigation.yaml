@@ -1,0 +1,35 @@
+# Parameters Feature Mapper Node
+
+feature_mapper_node:
+  world_frame: map
+  odom_frame: odom
+  robot_frame: slam_base_link
+  rate: 1
+  map_res: 0.1
+  map_bounds: [-10, -10, -3, 10, 10, 2]
+
+
+  adj_mode: 1
+  use_colour: true
+  use_multi_return: true
+  use_traversal: true
+
+
+ndt_ftm_te:
+  model_file: /data/processed/experiments/ablation_lfe_hl/lfe_hl/exp_2023_02_20_08_37/model/svm_ftmestimator.joblib
+  feature_set_file: /data/processed/experiments/ablation_lfe_hl/lfe_hl/exp_2023_02_20_08_37/model/svm_ftmfeatures.joblib
+  scaler_file: /data/processed/experiments/ablation_lfe_hl/lfe_hl/exp_2023_02_20_08_37/model/svm_ftmscaler.joblib
+
+ground_estimation_node:
+  map_res: 0.1
+  world_frame: map
+  odom_frame: odom
+  ohm_cloud_topic: ohm_cloud
+  te_cloud_topic: te_cloud
+
+  local_map_bounds: [-10, -10, -3, 10, 10, 2]
+  tf_look_up_duration: 0.0 # 0 if latest need to be used. Non zero sets the duration
+
+nve_rlp_node:
+  world_frame: odom
+  robot_frame: base_link

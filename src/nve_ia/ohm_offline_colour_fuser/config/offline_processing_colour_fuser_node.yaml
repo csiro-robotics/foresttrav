@@ -1,0 +1,24 @@
+ohm_file: /data/data_processed/2024_04_12_00_36_50Z/ohm_maps/odom_2024_04_12_00_36_50Z_tm_map_v0.1.ohm
+pcl_file: /data/raw_data_sets/2024_04_12_structured/2024_04_12_00_36_50Z/odom_wildcat_velodyne.ply
+traj_file: /data/raw_data_sets/2024_04_12_structured/2024_04_12_00_36_50Z/odom_wildcat_traj.txt
+video_file: /data/raw_data_sets/2024_04_12_structured/2024_04_12_00_36_50Z/camera0-000.ts
+video_timestamp_file: /data/raw_data_sets/2024_04_12_structured/2024_04_12_00_36_50Z/camera0.timestamps
+
+colour_mode: 0 # 0: EP (endpoint) , 2: ES, Ndt
+colour_param: 1.0
+
+buffer_outer_ts: 10.0
+buffer_inner_ts: 0.15
+
+camera_matrix: [1191.18040939,1191.01083256,1008.60707043,843.1709285771]  #K 
+camera_dist: [ -0.259780368892,0.0948549673483,0.000934939096956,-0.000554181586937,-0.0184395519361,] #D
+
+T_r_c: [ 0.0738316475559,-0.00238253688704,0.0342222292168,0.567007485958, -0.438682284769,0.426455509424,-0.551539719675] #  [x,y,z, qw, qx, qy. qz]
+rate: 100
+step_size: 2
+map_bounds: [-200.0, -200.0, -1.5, 200.0, 200.0, 2.0]
+img_mask: [0.0, 0.99, 0.0, 1.0 ]
+debug: True
+
+pipeline: True # Will run the processing as fast as possible and will publish any topics
+out_file: /data/debug/ohm_offline_colour_fuser/2021_12_14_00_02_12Z/out_ohm_rgb_cloud.ohm

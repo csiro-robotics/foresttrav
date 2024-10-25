@@ -1,0 +1,8 @@
+
+rate: 5
+world_frame: r6/odom
+robot_frame: r6/slam_base_link
+camera_frame: cam0
+
+map_bounds: [-10, -10, -3, 10, 10, 2]
+map_res: 0.1

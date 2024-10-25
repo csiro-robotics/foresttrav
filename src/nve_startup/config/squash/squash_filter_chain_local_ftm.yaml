@@ -1,0 +1,112 @@
+# Copyright (c) 2020
+# Commonwealth Scientific and Industrial Research Organisation (CSIRO)
+# ABN 41 687 119 230
+#
+# Author: Fletcher Talbot, fletcher.talbot@csiro.au
+# Author: Inkyu Sa, inkyu.sa@csiro.au
+# Author: Thomas Hines, thomas.hines@data61.csiro.au
+
+# Layers (see AcclivityMap::add*)
+#   input (each layer also exists with a _{source id} suffix for the resampled
+#          data):
+#     is_level_transition: 1.0 iff this cell might be on the edge of a
+#                          transition to a different ground level else 0.0
+#     is_real: 1.0 iff real observed surface else 0.0
+#     is_temporary: does this cell represent a temporary entity?
+#     normal_z: z component of surface normal unit vector
+#     penalty: penalty of intersecting cell
+#     samples: the number of samples that the normal is based on
+#     source: the source of the data (NaN=none, 0=OHM/Heightmap,
+#                                     1=Fabio/DensePointClod2/LayeredCostmap)
+#     z: z height of each cell or NaN for unknown cells
+#   derived:
+#     is_fatal: does this cell represent a fatal obstacle that should
+#               not be touched by this ground vehicle?
+#     is_in_obstacle: does this cell intersect a obstacle that should not be
+#                     touched?
+
+grid_map_filters:
+
+  # This is required to keep the costmap located correctly
+  - name: buffer_normalizer
+    type: gridMapFilters/BufferNormalizerFilter
+
+  # Get any cells containing obstacles
+  - name: fatal_obstacle_list
+    type: H2CGridMap/ObstacleList
+    params:
+      debug: false
+      height_layer: z
+      is_fatal_layer: is_in_obstacle
+      obstacle_list_topic_param: static_parameters/fatal_obstacle_list_topic
+      set_to: 1.0
+      otherwise_set_to: 0.0
+
+  - name: penalty_obstacle_list
+    type: H2CGridMap/ObstacleList
+    params:
+      debug: false
+      height_layer: z
+      is_fatal_layer: penalty
+      obstacle_list_topic_param: static_parameters/penalty_obstacle_list_topic
+
+  - name: z_merge
+    type: H2CGridMap/Merge
+    params:
+      debug: false
+      input_layers: [
+        z_1,
+      ]
+      output_first_layer: z_final
+      
+  - name: is_real_merge
+    type: H2CGridMap/Merge
+    params:
+      debug: false
+      input_layers: [
+        is_real_1,
+      ]
+      output_first_layer: is_real_final
+
+  - name: is_known_merge
+    type: H2CGridMap/Merge
+    params:
+      debug: false
+      input_layers: [
+        is_known_1,
+      ]
+      output_first_layer: is_known_final
+  
+  # Exponential cost what A* expects
+  - name: te_penalty_scaled
+    type: gridMapFilters/MathExpressionFilter
+    params:
+      output_layer: penalty
+      expression: 10.0*exp(-6.0*te_prob^2) + 1.0
+
+  # The threshold of what is considered traversable determins the two bottom layers
+  # Important thresholds for this functions:
+  # If te_prob < 0.3 should be fatal, then set the appropriate valued
+  # x = 0.5, y= 3.2
+  # x = 0.4, y= 4.8
+  # y = 0.3, y= 6.8
+  # x = 0.2, y = 8.8
+  - name: lower_threshold
+    type: gridMapFilters/ThresholdFilter
+    params:
+      condition_layer: penalty
+      output_layer: penalty
+      upper_threshold: 6.8 # alternative: upper_threshold
+      set_to: .inf #
+      otherwise_set_to: penalty
+
+  # The threshold is used to determin "pure" fatal elements. Can be lowered to allow for A* to get closer to elemtns
+  - name: te_is_fatal
+    type: H2CGridMap/ThresholdFilter
+    params:
+      input_layer: z_final
+      threshold_layer: te_prob_1
+      lower_threshold: 0.3 # Upper bound as threshold to be traversable
+      set_to: 1.0
+      otherwise_set_to: 0.0
+      output_layer: is_fatal

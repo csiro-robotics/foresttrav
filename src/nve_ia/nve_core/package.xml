@@ -1,0 +1,17 @@
+<?xml version="1.0"?>
+<package format="2">
+  <name>nve_core</name>
+  <version>0.0.0</version>
+  <description>The nve_ia package</description>
+  <!-- One maintainer tag required, multiple allowed, one person per tag -->
+  <maintainer email="rue011@csiro.au">rue011</maintainer>
+
+  <license>TODO</license>
+
+  <buildtool_depend>catkin</buildtool_depend>
+
+  <depend>ohm</depend>
+  <depend>cv_bridge</depend>
+
+
+</package>

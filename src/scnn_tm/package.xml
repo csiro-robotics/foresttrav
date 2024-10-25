@@ -1,0 +1,27 @@
+<?xml version="1.0"?>
+<?xml-model
+  href="http://download.ros.org/schema/package_format3.xsd"
+  schematypens="http://www.w3.org/2001/XMLSchema"?>
+<package format="2">
+  <name>scnn_tm</name>
+  <version>0.0.1</version>
+  <description> This package contains the python nodes for forest traversability mapping using SCNN, mainly the MinkowksiEngine</description>
+
+  <maintainer email="fabio.ruetz@csiro.au">Fabio Ruetz</maintainer>
+  
+  <license>CSIRO AUSTRALIA</license>
+  <author email="fabio.ruetz@csiro.au">Fabio Ruetz</author>
+
+  <buildtool_depend>catkin</buildtool_depend>
+  <depend>rospy</depend>
+  <depend>sensor_msgs</depend>
+  <depend>nav_msgs</depend>
+  <depend>geometry_msgs</depend>
+  <depend>tf</depend>
+  <depend>ros_numpy</depend>
+
+  <!-- <exec_depend condition="$ROS_PYTHON_VERSION == 3">python3-numpy</exec_depend> -->
+
+  <export>
+  </export>
+</package>

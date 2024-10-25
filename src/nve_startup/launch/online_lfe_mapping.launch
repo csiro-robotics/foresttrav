@@ -1,0 +1,55 @@
+<launch>
+  <arg name="robot" default="fsquash" />
+
+  <arg name="output" default="screen" />
+  <arg name="odom_stage" default="high" doc="The Wildcat output stage to use (high or tail)." />
+  <arg name="respawn" default="true" />
+
+  <arg name="run_feature_mapper" default="True" doc="Should the feature mapper be run?" />
+  <arg name="run_ndt_te_estimation" default="false"     doc="Should FTM traversability estimator be run?" />
+  <arg name="run_reactive_lmp_planner" default="false"    doc="Should tf_completion for colour pipeline" />
+
+  <!-- Squash -->
+  <arg if="$(eval arg('robot') == 'squash')" name="pack" default="p5" />
+  <arg if="$(eval arg('robot') == 'squash')" name="c" default="squash" />
+  <arg if="$(eval arg('robot') == 'squash')" name="robot_name" default="r6" />
+  <arg if="$(eval arg('robot') == 'squash')" name="self_strike" default="squash" />
+
+  <!-- Squash -->
+  <arg if="$(eval arg('robot') == 'fsquash')" name="platform" default="squash" />
+  <arg if="$(eval arg('robot') == 'fsquash')" name="robot_name" default="r6" />
+  <arg if="$(eval arg('robot') == 'fsquash')" name="self_strike" default="squash" />
+  <arg if="$(eval arg('robot') == 'fsquash')" name="pack" default="p9" />
+
+  <arg name="ROSCONSOLE_FORMAT" default="${severity} ${time} ${node}: ${message}" />
+  <env name="ROSCONSOLE_FORMAT" value="$(arg ROSCONSOLE_FORMAT)" />
+
+  <group ns="$(arg robot_name)">
+    <remap from="/tf" to="tf" />
+    <remap from="/tf_static" to="tf_static" />
+
+    <node pkg="collision_mapper" type="collision_mapper_node" name="collision_mapper_node" clear_params="true">
+      <rosparam command="load" file="$(find nve_startup)/config/$(arg platform)/$(arg platform)_collision_mapper.yaml" />
+
+      <remap from="~rc_toggle" to="/$(arg platform)/logging_state" />
+      <remap from="~rc_trigger" to="/$(arg platform)/logging_trigger" />
+      <param name="auto_cm_interval" value="20" />
+
+    </node>
+
+    <node pkg="lfe_data_fuser" type="data_fuser_node.py" name="data_fuser_node" clear_params="true" output="screen">
+      <rosparam command="load" file="$(find nve_startup)/config/$(arg platform)/$(arg platform)_data_fuser.yaml" />
+      
+      <!-- CHANGE FOR SAVING DATA SET -->
+      <param name="data_root_dir" value="/data/temp/online_small_bbx/qcat_forest_2" />
+      <param name="data_set_name" value="qcat_forest_2" />
+
+      <remap from="feature_map" to="/$(arg robot_name)/ohm" />
+      <remap from="collision_map" to="/$(arg robot_name)/collision_mapper_node/collision_cloud" />
+      <remap from="collision_poses" to="/$(arg robot_name)/collision_mapper_node/poses" />
+      <remap from="collision_poses" to="/$(arg robot_name)/collision_mapper_node/poses" />
+    </node>
+
+
+  </group>
+</launch>

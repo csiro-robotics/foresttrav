@@ -1,0 +1,33 @@
+# Label strategies:
+# 0: Binary TE labelling without 
+# 1: Prob TE labelling 
+# 2: Ground Labeller
+
+label_strategy: 1
+feature_strategy: 1   # 0: OhmStatistic, 1: Ftm, FAdj
+
+# TE labeling 
+min_update_interval: 0.15 # The minimum time [s] for two events to be registered
+te_update: 0.55
+nte_update: 0.35
+te_prob_threshold: 0.8
+nte_prob_threshold: 0.2
+fixed_map_prior: false  # Choose either between fixe map prior and weighted
+te_prior_prob: 0.6
+nte_prior_prob: 0.25
+
+# Robot dimensions
+collision_bbox: [-0.3,-0.35, -2.5, 0.35, 0.35 ,0.5]
+robot_bbox: [-1.0, -0.35, -2.5, 0.1, 0.35, 0.5]
+
+# Saving feature_map as csv
+extract_te_features: True
+extract_nte_features: True
+
+map_roi: [-100, -100, -2.5, 100, 100, 0.5]
+
+use_lfe: true
+use_hl: true
+
+hl_files:
+  - /data/data_processed/2024_04_12_00_49_19Z/te_segmentation/semantic_odom_2024_04_12_00_49_19Z.ply

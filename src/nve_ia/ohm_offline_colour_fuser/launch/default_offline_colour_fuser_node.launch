@@ -1,0 +1,7 @@
+<launch>
+
+    <node pkg="ohm_offline_colour_fuser" type="ohm_offline_colour_fuser_node" name="ohm_offline_colour_fuser_node" clear_params="true" output="screen">
+      <rosparam command="load" file="$(find ohm_offline_colour_fuser)/config/default_offline_colour_fuser_node.yaml"/>
+    </node>
+
+</launch>

@@ -1,0 +1,14 @@
+##
+##      TORCHSPARSE Interactive             
+##
+ARG BASE_IMAGE
+FROM ${BASE_IMAGE}
+
+## For faster build, use more jobs.
+ENV MAX_JOBS=8
+
+# TorchSpare version v2.0.0b commit 
+RUN apt-get update && apt-get install libsparsehash-dev \
+    && git clone --branch v2.0.0 --recurse-submodules https://github.com/mit-han-lab/torchsparse.git  /opt/torchsparse \
+    && cd /opt/torchsparse \
+    && FORCE_CUDA=1 pip install . 

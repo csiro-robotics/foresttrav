@@ -1,0 +1,16 @@
+
+<launch>
+  <arg name="robot_name" default="r6" />
+
+  <group ns="$(arg robot_name)">
+    <remap from="/tf" to="tf"/>
+    <remap from="/tf_static" to="tf_static"/>
+    
+    <node pkg="nve_costmap_converter" type="costmap_converter_node" name="costmap_converter_node" clear_params="true" output="screen">
+      <rosparam command="load" file="$(find nve_costmap_converter)/config/costmap_converter_params.yaml"/>
+      <remap from="~te_cloud_topic" to="scnn_ftm_ros/traversability_cloud" />
+
+    </node>
+  </group>
+
+</launch>

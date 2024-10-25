@@ -1,0 +1,19 @@
+<launch>
+
+  <arg name="robot_name" default="r6" />
+
+
+  <group ns="$(arg robot_name)">
+    <remap from="/tf" to="tf" />
+    <remap from="/tf_static" to="tf_static" />
+    <node pkg="nve_robot_labelling" type="offline_te_labeler_node" name="offline_te_labeler_node" clear_params="true" output="screen">
+
+      <rosparam command="load" file="$(find nve_robot_labelling)/config/default_offline_te_labler_node.yaml" />
+      
+      <param name="map_file" value="/data/data_processed/2024_04_12_00_49_19Z/ohm_maps/odom_tm_map_v0.1_ep_rgb_w1.0.ohm" />
+      <param name="semantic_traj_file"  value="/data/data_processed/2024_04_12_00_49_19Z/raw_data/odom_wildcat_traj_labeled.txt"/>  
+      <param name="out_dir" value="/data/data_processed/2024_04_12_00_49_19Z/ohm_map_features" />
+
+    </node>
+  </group>
+</launch>

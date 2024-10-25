@@ -1,0 +1,102 @@
+# Copyright (c) 2020
+# Commonwealth Scientific and Industrial Research Organisation (CSIRO)
+# ABN 41 687 119 230
+#
+# Author: Fletcher Talbot, fletcher.talbot@csiro.au
+# Author: Inkyu Sa, inkyu.sa@csiro.au
+# Author: Thomas Hines, thomas.hines@data61.csiro.au
+
+# Layers (see AcclivityMap::add*)
+#   input (each layer also exists with a _{source id} suffix for the resampled
+#          data):
+#     is_level_transition: 1.0 iff this cell might be on the edge of a
+#                          transition to a different ground level else 0.0
+#     is_real: 1.0 iff real observed surface else 0.0
+#     is_temporary: does this cell represent a temporary entity?
+#     normal_z: z component of surface normal unit vector
+#     penalty: penalty of intersecting cell
+#     samples: the number of samples that the normal is based on
+#     source: the source of the data (NaN=none, 0=OHM/Heightmap,
+#                                     1=Fabio/DensePointClod2/LayeredCostmap)
+#     z: z height of each cell or NaN for unknown cells
+#   derived:
+#     is_fatal: does this cell represent a fatal obstacle that should
+#               not be touched by this ground vehicle?
+#     is_in_obstacle: does this cell intersect a obstacle that should not be
+#                     touched?
+
+grid_map_filters:
+
+  # This is required to keep the costmap located correctly
+  - name: buffer_normalizer
+    type: gridMapFilters/BufferNormalizerFilter
+
+  # Get any cells containing obstacles
+  - name: fatal_obstacle_list
+    type: H2CGridMap/ObstacleList
+    params:
+      debug: false
+      height_layer: z
+      is_fatal_layer: is_in_obstacle
+      obstacle_list_topic_param: static_parameters/fatal_obstacle_list_topic
+      set_to: 1.0
+      otherwise_set_to: 0.0
+  - name: penalty_obstacle_list
+    type: H2CGridMap/ObstacleList
+    params:
+      debug: false
+      height_layer: z
+      is_fatal_layer: penalty
+      obstacle_list_topic_param: static_parameters/penalty_obstacle_list_topic
+
+  # Merge Fabio's and OHM data. Where both have valid data, use Fabio's z'z
+  # and mark as real.
+  - name: z_merge_fabio_ohm
+    type: H2CGridMap/Merge
+    params:
+      debug: false
+      input_layers: [
+        z_1,  # Fabio
+        z_1,  # OHM
+      ]
+      output_first_layer: z_final
+  - name: is_real_merge_fabio_ohm
+    type: H2CGridMap/Merge
+    params:
+      debug: false
+      input_layers: [
+        is_known_1,  # Fabio
+        is_real_0,  # OHM
+      ]
+      output_max_layer: is_real_final
+
+  - name: merge_z_te_fatal
+    type: H2CGridMap/Merge
+    params:
+      debug: false
+      input_layers: [
+        z_merge_fabio_ohm, 
+        te_prob_1,  
+      ]
+      output_first_layer: merge_z_fatal
+  
+
+  - name: te_is_fatal
+    type: H2CGridMap/ThresholdFilter
+    params:
+      input_layer: merge_z_fatal
+      threshold_layer: te_prob
+      lower_threshold: 0.2 # Upper bound as threshold to be traversable
+      set_to: 1.0
+      otherwise_set_to: 0.0
+      output_layer: is_fatal
+   
+  # - name: is_fatal_merge_fabio_obstacle
+  #   type: H2CGridMap/Merge
+  #   params:
+  #     debug: false
+  #     input_layers: [
+  #       te_is_fatal,  # Fabio
+  #       is_in_obstacle,  # Obstacles
+  #     ]
+  #     output_max_layer: is_fatal

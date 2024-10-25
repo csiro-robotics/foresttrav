@@ -1,0 +1,7 @@
+rate: 10
+world_frame: map
+robot_frame: slam_base_link
+camera_frame: cam0
+
+map_bounds: [-12, -12, -3, 12, 12, 3]
+map_res: 0.1

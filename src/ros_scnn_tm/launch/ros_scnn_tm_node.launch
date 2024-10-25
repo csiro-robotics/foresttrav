@@ -1,0 +1,14 @@
+<launch>
+
+    <node pkg="ros_scnn_tm" type="scnn_ftm_ros.py" name="scnn_ftm_ros" clear_params="true" output="screen">
+      <param name="model_dir"  value="/data/debug/test_online_trainer/online_models/1687477100_231236696"/>
+      <param name="cv_nrb"  value="10"/>
+      <param name="device"  value="cuda"/>
+      <param name="visualise_colour" value="False"/>
+
+      <remap from="feature_cloud_in" to="/r6/ohm" />
+      <remap from="tep_cloud" to="/r6/traversability_cloud" />
+      
+    </node>
+
+</launch>

@@ -1,0 +1,15 @@
+[Unit]
+Description=Traversability estimation service
+
+[Service]
+User=aslab
+Group=aslab
+EnvironmentFile=/home/aslab/platform.env
+WorkingDirectory=/home/aslab/src/nve_ws/nve_docker/
+ExecStart=/home/aslab/src/nve_ws/nve_docker/run_deployment/run_te_estimation.bash roslaunch nve_startup te_estimator.launch --wait robot_name:="${ROBOT_NAME}" platform:="${PLATFORM}" model_dir:="${MODEL_DIR}" 
+ExecStop=/usr/bin/docker stop nve_docker.service
+Restart=always
+RestartSec=10
+
+[Install]
+WantedBy=graphical.target

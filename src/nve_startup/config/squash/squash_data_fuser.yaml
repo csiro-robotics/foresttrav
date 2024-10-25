@@ -1,0 +1,19 @@
+main_rate: 2.0 # Main rate of the node, checking for new data to process
+feature_map_rate: 2.0
+voxel_size: 0.1
+data_root_dir: ""
+data_set_name: online_lfe_data
+
+world_frame: odom
+odom_frame: odom
+robot_frame: base_link
+
+# Filtering for the feature cloud
+radius: 2.0
+height_low: -1.5
+height_high: 1.5
+debug_fm_cloud: True
+
+# New file per cycle
+new_file_per_cycle: True
+trigger_online_training: True

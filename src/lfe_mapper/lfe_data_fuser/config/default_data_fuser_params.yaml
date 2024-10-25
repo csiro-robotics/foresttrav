@@ -1,0 +1,19 @@
+main_rate: 1.0
+feature_map_rate: 2.0 
+voxel_size: 0.1
+
+data_root_dir: "/"
+data_set_name: incremental_data
+
+odom_frame: odom
+robot_frame: base_link
+
+radius: 3.0
+height_low: -0.5
+height_high: 0.8
+
+debug_fm_cloud: False
+
+new_file_per_cycle: True
+trigger_online_training: True
+file_write_mode: "w"

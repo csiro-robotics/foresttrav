@@ -1,0 +1,8 @@
+model_dir: "/"              # Absolut path to the dir containing all the models
+cv_start: 0                 # Start for loading models
+cv_stop: 5                  # Stop for loading models, i.e.0-5 will load 6 models
+device: "cuda"              #  Defines the device on which the model should run {"cuda", "cpu"} 
+visualise_colour: False     # Flag to toggle point cloud colourisations
+colour_map: virdis          # Key for colour map, see matplotlib
+
+costmap_conversion: False   # Costmap conversion in python, to slow to be used online and no virtual surfaces

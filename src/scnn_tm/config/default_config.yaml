@@ -1,0 +1,88 @@
+#######################################################################
+####               DEFAULT TRAINING PARAMETERS                     ####
+#######################################################################
+
+# Experiment configurations
+experiment_name:  '24_06_26'              # Name of the experiments, used by wandb
+experiment_root_dir: /data/sim_models/24_06_26 # Root dir where experiment will be stored. Each "run" will have a seperate timestamped
+debug: True       # Flag to enter into debug mode, will not use wandb
+evaluate_test_set: True # Flag if the model should be evaluated on a test set
+metric_rounding: 4  # Rounding of the model on the test set
+save_model: True    # Flag to save the model
+
+# Data set configuration and Training Strategy
+training_strategy_key: test_train       # (Deprecated) Flag for training stragegies 
+use_pretrained_model: False             # Flag that allows the "fine-tuning" of models
+base_model_config: ""                   # Absolute file path to the model config dir (yaml file)
+
+use_data_set_key: False                 #(Deprecated) Flag to used pre-defined data sets
+data_set_key:  lfe_hl                   #(Deperecated) Key for different data sets with different labeling strategies. lfe_hl: hand-labelled, lfe_cl: confident hand-labels (only non-traversable ones)
+train_data_sets:                        # Absolut path for the files defined to be data sets
+  - "/data/forest_trav/lfe_hl_v0.1/2_2021_12_14_00_14_53Z.csv" 
+  - "/data/forest_trav/lfe_hl_v0.1/3_2021_12_13_23_51_33Z.csv"
+  - "/data/forest_trav/lfe_hl_v0.1/8_2021_11_18_00_23_24Z.csv" 
+  - "/data/forest_trav/lfe_hl_v0.1/1_2021_12_14_00_02_12Z.csv"
+  - "/data/forest_trav/lfe_hl_v0.1/6_2021_10_28_04_03_11Z.csv"
+  - "/data/forest_trav/lfe_hl_v0.1/5_2021_10_28_03_54_49Z.csv" 
+  - "/data/forest_trav/lfe_hl_v0.1/4_2021_12_13_23_42_55Z.csv" 
+  - "/data/forest_trav/lfe_hl_v0.1/7_2021_10_28_04_13_12Z.csv" 
+
+test_data_sets:                         # Absolut path for the test data sets
+  - "/data/forest_trav/lfe_hl_v0.1/9_2022_02_14_23_47_33Z.csv" 
+
+patch_strategy: grid                    # (Deprecated) Patch sampling strategies
+train_ratio: 0.8                        # Ration for training/validation split. Only used if use_cv == False
+min_patch_sample_nbr: 150               # Number of points required for a valid patch
+use_cv: False                           # Flag to enable "cross-validation" training. Train/val split is 1/max_cv. Results in n models trained  
+max_cv: 10                              # Number of models to be trained
+cv_nbr: 0                               # Current cv_number, required for correct parsing.
+
+# Hyper parameters for learning
+lr:  0.0005                             # Learning rate (0.0001- 0.0005) for newly trained model. (0.00001-0.00005) for fine-tunning.
+weight_decay:   0.0009                  # Weight decay for learnig, see pytorch
+max_epochs:     150                     # Maximum number of epochs trained
+batch_size:     64                      # Training batch size
+val_batch_size: 64                      # Validation batch size
+check_val_every_n_epoch: 5              # After how many epochs the validation step should be performed, is slow so we set it low
+log_every_n_steps: 3                    # Logging after how many "steps", see pytorch/pytorch_lightning
+es_patience: 20                         # Early stopping patience,
+use_label_weights: False                # If label weights should be used
+ce_label_weights: [ 2.0, 0.5]           # Scaling of label weights to combat class imbalance, [nte, te]. Nte should be 1.0-2.0 and TE <= 1.0.
+ce_threshold: 0.5                       # Traversability threshold, only  use for TwoHeadProbLoss
+
+# Accelerator
+ngpus:           1.0                    # How many gpus should be used for training.
+accelerator:    'cuda'                  # Accellerator ("cpu", "cuda", "mse ")
+
+# Voxel default config
+feature_set_key: occ_ev_hm_mr           # Key to generate voxel features, see README.
+voxel_size: 0.1                         # Size of voxel (meters)
+nvoxel_leaf: 32                         # Size of cube for discretisation. Controlls how much "context" each training example gets.
+shuffle: True                           # If training data should be shuffled (always yes)
+random_seed: 23111989                   # Random seed 
+
+# Loss configureation
+loss_function_tag: TwoHeadLoss          # Which loss function should for the THM models. TwoHeadLoss, TwoHeadProbLoss
+ce_loss_weight: 1.5                     # Scalling of the classification loss (CE-loss)
+rec_loss_weight: 0.3                    # Scaling of the reconstruction loss  (MSE-loss)
+
+# Model configuration
+model_name:  UNet4THM                   # UNet4LMCD, UNet4THM
+model_skip_connection_key: s3           # Key to define the number of skip connections s0,s1,s2,s3
+model_skip_connection: [0, 0, 0, 0, 0]  # (Dont modifiy) Skipp conection flags for the NN. Get sets by the key above
+model_stride: [1, 2, 2, 2, 2, 2]        # (Dont modfiy) Stride for the convolutions. 
+model_nfeature_enc_ch_out: 16           # Number of features after the first layer, common values 6-16, depends on feature number. 
+
+# Data Augmentation
+use_data_augmentation: True             # If data augmentation shoud be usde 
+data_augmenter_noise_chance: 0.0        # (Not recomended) Noise chance to permutate a feature
+data_augmenter_noise_mean: 0.0          # Mean feature noise 
+data_augmenter_noise_std: 0.00          # Std feature noise
+data_augmenter_sample_pruning_chance: 0.05    # Chance to remove a sample/point from the training data
+data_augmenter_batch_rotation_chance: 0.5     # Change for the patch/cube be rotated
+data_augmenter_batch_translation_chance: 0.25 # Chance of the patch/cube to be translated 
+data_augmenter_batch_nvoxel_displacement: 5.0 # Uniform sampled number of voxels that shold be translated (1-5) 
+data_augmenter_mirror_chance: 0.25            # Chance of scene to be "mirrored"
+
+# Feature scaling
+use_feature_scaling: True               # Flag to use feature scaling

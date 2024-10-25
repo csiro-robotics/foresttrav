@@ -1,0 +1,12 @@
+feature_mapper_node:
+  world_frame: map
+  odom_frame: odom
+  robot_frame: slam_base_link
+  rate: 1
+  map_res: 0.1
+  map_bounds: [-20, -20, -3, 20, 20, 2]
+
+  adj_mode: 1
+  use_colour: true
+  use_multi_return: true
+  use_traversal: true

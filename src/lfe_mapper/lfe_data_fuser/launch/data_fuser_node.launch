@@ -1,0 +1,21 @@
+<launch>
+
+  <!-- Defualt launch file for ndt_ftm_te_py node -->
+  <!-- Params: model_file: Defines the model which should be used. -->
+  <!-- Params:  model_features: A list of feature names that should be used. Need to correspond to the 
+                the name of the features received in ~/feature_cloud_in -->
+  <arg  name="robot_name" default="r6" />
+
+    
+  <group ns="$(arg robot_name)">
+      <remap from="/tf" to="tf" />
+      <remap from="/tf_static" to="tf_static" />
+  
+      <node pkg="lfe_data_fuser" type="data_fuser_node.py" name="data_fuser_node" clear_params="true" output="screen">
+        <remap from="feature_map" to="/$(arg robot_name)/ohm" />
+        <remap from="collision_map" to="/$(arg robot_name)/collision_mapper_node/collision_cloud" />
+        <remap from="collision_poses" to="/$(arg robot_name)/collision_mapper_node/poses" />
+        </node>
+  </group>
+
+</launch>

@@ -1,0 +1,63 @@
+# Experiment configurations
+experiment_name:  pl_2023_paper_sweep
+experiment_root_dir: /data/pl_2023_paper_sweep
+
+# Data set configuration and Training Strategy
+use_data_set_key: True
+training_strategy_key: test_train # test_train, cv_patch, cv_scene
+patch_strategy: grid
+min_patch_sample_nbr: 20
+
+data_set_key:  lfe_hl         # lfe_hl: hand-labelled, lfe_cl: confident hand-labels (only non-traversable ones)
+data_sets: []
+test_data_sets: []
+
+use_cv: True
+num_splits: 3
+current_fold: 0
+
+# Hyper parameters for learning
+optimizer_name: ADAM        # ADAM, SGD
+learning_rate:  0.001
+weight_decay:   0.0009
+max_epochs:     50
+batch_size:     24
+check_val_every_n_epoch: 3
+log_every_n_steps: 3
+es_patience: 7
+use_label_weights: False
+label_weights: [ 1.0, 1.0]
+
+# Accelerator
+ngpus:           1.0
+accelerator:    'gpu'
+
+# Voxel default config
+feature_set_key: ohm
+voxel_size: 0.1
+nvoxel_leaf: 32
+train_ratio: 0.8
+shuffle: True
+random_seed: 23132
+
+# Model configuration
+model_name:  Unet4MCD
+model_skip_connection_key: s4
+model_stride: [1, 2, 2, 2, 2, 2]
+model_skip_connection: [0, 0, 0, 0, 0]
+model_nfeature_enc_ch_out: 8
+model_dropout: 0.0
+
+# Data Augmentation
+use_data_augmentation: True
+data_augmenter_noise_chance: 0.0
+data_augmenter_noise_mean: 0.0
+data_augmenter_noise_std: 0.0
+data_augmenter_sample_pruning_chance: 0.0
+data_augmenter_batch_rotation_chance: 0.0
+data_augmenter_batch_translation_chance: 0.0
+data_augmenter_batch_nvoxel_displacement: 0.0
+data_augmenter_mirror_chance: 0.0
+
+# Scaler
+use_feature_scaling: True

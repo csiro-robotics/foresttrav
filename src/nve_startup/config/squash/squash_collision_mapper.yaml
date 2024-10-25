@@ -1,0 +1,40 @@
+main_rate: 5.0              # Rate at which the node runs and processes the incoming data
+cs_rate: 10.0               # Rate at which the collision states are accepted, 
+auto_cm_interval: 20        # Interval [s] at which the collision map is generated. Starts the whole data cycle
+
+te_update: 0.55             # Update for the traversable case
+nte_update: 0.05            # Update for the collision case, there are so few, that this needs to be very low! 
+te_prob_threshold: 0.8
+nte_prob_threshold: 0.2
+fixed_map_prior: false  # Choose either between fixe map prior and weighted
+te_prior_prob: 0.6
+nte_prior_prob: 0.3
+
+# Robot dimensions broad
+# collision_bbox: [-0.2,-0.5, -1.5, 0.8, 0.5 , 1.5]   # The bbox that defines the voxel collision states: collision
+# robot_bbox: [-1.2, -0.5, -1.5, 0.5, 0.4, 1.5]       # The bbox that defines the voxel collision state: free
+
+# Small bbox
+collision_bbox: [0.2,-0.35, -0.5, 0.4, 0.35 , 0.8]
+robot_bbox: [-0.8, -0.35, -0.5, 0.2, 0.35, 0.8]
+# Robot dimensions large (old)
+# collision_bbox: [0.0,-0.6, -1.0, 0.6, 0.6 , 1.2]
+# robot_bbox: [-1.2, -0.6, -1.0, 0.2, 0.6, 1.2]
+
+# Fusion:
+# Tight collision box and large robot bounding box..
+# collision_bbox: [0.0,-0.5, -0.5, 0.4, 0.5 , 1.5]
+# robot_bbox: [-0.8, -0.5, -0.5, 0.2, 0.5, 1.5]
+
+world_frame: odom      # Static world frame
+odom_frame: odom      # Static odom fr5ame
+robot_frame: base_link # Base link of the robots. For csiro robot this is the IMU
+
+# Limits the updates either 0 or ###a
+dt_pos_cs: 0.2   # Time differensce needed to record a collision state
+min_pose_dist: 0.3 # Minimum distance for two states to be considered
+dt_collision_reset: 1.5 # Reset after a collision before a new state can be recorded, used to avoid toggle issues on switch.  
+
+visualize_collision_states: true
+visualize_collision_map: true
+compute_collision_map: true

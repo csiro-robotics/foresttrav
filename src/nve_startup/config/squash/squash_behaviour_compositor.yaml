@@ -1,0 +1,176 @@
+########################################################################################################################
+# Behaviour Compositor Node Parameters for Squash Platform
+########################################################################################################################
+
+static_parameters:
+
+  # The list of behaviours to use in order of highest priority to lowest.
+  # Each behaviour has:
+  #   node_name: the name of the ROS node for this behaviour
+  #   timeout: the number of seconds to wait after the last message from this
+  #            behaviour was received before reverting the behaviour to
+  #            inadmissible (omit or 0 for no timeout) (only checked when a
+  #            behaviour message is received or on behaviour_rate)
+  behaviours:
+    - {node_name: behaviour_joy, timeout: 0.5} # Enable autorepeat_rate
+    - {node_name: behaviour_echo, timeout: 0.5}
+    - {node_name: behaviour_path_follow, timeout: 0.5}
+    - {node_name: behaviour_done}
+    - {node_name: behaviour_align, timeout: 0.5}
+    - {node_name: behaviour_decollide_straight, timeout: 0.5}
+    - {node_name: behaviour_point, timeout: 0.5}
+    - {node_name: behaviour_orientation_correction, timeout: 0.5}
+    - {node_name: behaviour_stop}
+
+  # The list of planners to use, in order of highest priority to lowest.
+  # Each behaviour has:
+  #   node_name: the name of the ROS node for this planner
+  #   duration_plan: planner can only be admissible if a valid plan has been
+  #                  received within this duration (omit or set to 0 for
+  #                  infinite).
+  #   duration_valid: planner becomes admissible if the plan has been valid for
+  #                   at least this duration (omit for 0).
+  #   duration_invalid: planner becomes inadmissible if the plan has been
+  #                     invalid for at least this duration (omit for 0).
+  planners:
+    - {node_name: planner_hybrid_astar, duration_plan: 10.0, duration_valid: 1.0, duration_invalid: 1.0}
+
+dynamic_parameters:
+
+  # The rate to check which behaviour to use and publish updated values in Hz
+  # (set to 0 to only publish asynchronously (when inputs are updated) (timeouts
+  # may not trigger in this case)).
+  behaviour_rate: {default: 10.0, min: 0.0, max: 1000.0}
+
+  # The rate to check if the robot has completed the next goal and set the
+  # action to succeeded in Hz.
+  goal_rate: {default: 10.0, min: 0.0, max: 1000.0}
+
+  # Is velocity output stamped?
+  is_velocity_output_stamped: true
+
+  # Should velocity/plan only be published when either the active
+  # behaviour/planner changes or a new velocity/plan message is received from
+  # the active behaviour/planner? If false, velocity/plan will be published at
+  # least as frequently as behaviour_rate.
+  only_publish_on_change: false
+
+  # Mahalanobis distance tolerance
+  mahalanobis_distance_tolerance: {default: 1.0, min: 0.01, max: 100.0}
+
+  # The Tf frame that local planning poses are in
+  tf_frame_id: "odom"
+
+  # The Tf frame of the end effector
+  end_effector_frame_id: "panda_hand"
+
+  # The reach status topic
+  reach_status_topic: "reach_goal_status"
+
+  # The threshold for pose history variance for when the robot is
+  # considered to be starting a behaviour from the same location as before.
+  pose_history_variance_threshold:  {default: 0.08, min: 0.001, max: 10.0}
+
+  # Method of selecting behaviour
+  # PRIORITY = 0
+  # PROBABILISTIC = 1
+  # BLEND = 2
+  behaviour_selection_method: {default: 0, min: 0, max: 2}
+
+  # The pose of encoder in slam_base_link (i.e. pose of encoder centre in IMU frame)
+  slam_to_encoder:
+    translation:
+      x: {default: 0.003, min: -100.0, max: 100.0}
+      y: {default: 0.006, min: -100.0, max: 100.0}
+      z: {default: 0.021, min: -100.0, max: 100.0}
+    rotation:
+      x: {default: 0.0, min: -1.0, max: 1.0}
+      y: {default: 0.0, min: -1.0, max: 1.0}
+      z: {default: 0.0, min: -1.0, max: 1.0}
+      w: {default: 1.0, min: -1.0, max: 1.0}
+
+  # The pose of velodyne in encoder_rotating (i.e. pose of velodyne centre in encoder frame)
+  encoder_rotating_to_velodyne:
+    translation:
+      x: {default: 0.002, min: -100.0, max: 100.0}
+      y: {default: 0.000, min: -100.0, max: 100.0}
+      z: {default: 0.098, min: -100.0, max: 100.0}
+    rotation:
+      x: {default: -0.275, min: -1.0, max: 1.0}
+      y: {default:  0.270, min: -1.0, max: 1.0}
+      z: {default: -0.653, min: -1.0, max: 1.0}
+      w: {default:  0.652, min: -1.0, max: 1.0}
+
+  # The pose of base_link in slam_base_link (i.e. pose of robot centre in IMU frame)
+  slam_to_base_link:
+    translation:
+      x: {default: -0.200, min: -100.0, max: 100.0}
+      y: {default:  0.000, min: -100.0, max: 100.0}
+      z: {default: -0.300, min: -100.0, max: 100.0}
+    rotation:
+      x: {default: 0.0, min: -1.0, max: 1.0}
+      y: {default: 0.0, min: -1.0, max: 1.0}
+      z: {default: 0.0, min: -1.0, max: 1.0}
+      w: {default: 1.0, min: -1.0, max: 1.0}
+
+  # The pose of ground_link in base_link
+  base_to_ground_link:
+    translation:
+      x: {default:  0.000, min: -100.0, max: 100.0}
+      y: {default:  0.000, min: -100.0, max: 100.0}
+      z: {default: -0.100, min: -100.0, max: 100.0}
+    rotation:
+      x: {default: 0.0, min: -1.0, max: 1.0}
+      y: {default: 0.0, min: -1.0, max: 1.0}
+      z: {default: 0.0, min: -1.0, max: 1.0}
+      w: {default: 1.0, min: -1.0, max: 1.0}
+
+  # Robot footprint extents (metres, x is forward, y is left, z is up)
+  footprint_min:
+    x: {default: -0.50, min: -10.0, max:  0.0}
+    y: {default: -0.25, min: -10.0, max:  0.0}
+    z: {default:  0.00, min: -10.0, max:  0.0}
+  footprint_max:
+    x: {default:  0.30, min:   0.0, max: 10.0}
+    y: {default:  0.25, min:   0.0, max: 10.0}
+    z: {default:  0.00, min:   0.0, max: 10.0}
+
+  # Velocity limits
+  velocity_min:
+    linear:
+      x: {default: -2.50, min: -5.0, max: 0.0}
+      y: {default:  0.00, min:  0.0, max: 0.0}
+      z: {default:  0.00, min:  0.0, max: 0.0}
+    angular:
+      x: {default:  0.00, min:  0.0, max: 0.0}
+      y: {default:  0.00, min:  0.0, max: 0.0}
+      z: {default: -3.00, min: -5.0, max: 0.0}
+  velocity_max:
+    linear:
+      x: {default:  2.50, min:  0.0, max: 5.0}
+      y: {default:  0.00, min:  0.0, max: 0.0}
+      z: {default:  0.00, min:  0.0, max: 0.0}
+    angular:
+      x: {default:  0.00, min:  0.0, max: 0.0}
+      y: {default:  0.00, min:  0.0, max: 0.0}
+      z: {default:  3.00, min:  0.0, max: 5.0}
+
+  # Acceleration limits
+  acceleration_min:
+    linear:
+      x: {default: -2.5, min: -5.0, max: 0.0}
+      y: {default:  0.0, min:  0.0, max: 0.0}
+      z: {default:  0.0, min:  0.0, max: 0.0}
+    angular:
+      x: {default:  0.0, min:  0.0, max: 0.0}
+      y: {default:  0.0, min:  0.0, max: 0.0}
+      z: {default: -2.0, min: -5.0, max: 0.0}
+  acceleration_max:
+    linear:
+      x: {default:  2.5, min:  0.0, max: 5.0}
+      y: {default:  0.0, min:  0.0, max: 0.0}
+      z: {default:  0.0, min:  0.0, max: 0.0}
+    angular:
+      x: {default:  0.0, min:  0.0, max: 0.0}
+      y: {default:  0.0, min:  0.0, max: 0.0}
+      z: {default:  2.0, min:  0.0, max: 5.0}

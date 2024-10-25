@@ -1,0 +1,85 @@
+# Experiment configurations
+experiment_name:  '24_08_02_ul'
+experiment_root_dir: /data/sim_models/24_08_02_ul
+debug: True       # Flag to enter into debug mode, will not use wandb
+evaluate_test_set: True
+metric_rounding: 4
+save_model: True
+
+# Data set configuration and Training Strategy
+training_strategy_key: test_train # est_train, cv_test_train,  cv_patch, cv_scene
+use_pretrained_model: False
+base_model_config: ""
+
+use_data_set_key: False
+data_set_key:  lfe_hl         # lfe_hl: hand-labelled, lfe_cl: confident hand-labels (only non-traversable ones)
+use_unlabelled_data: True
+train_data_sets:  
+  - "/data/forest_trav/lfe_ul_v0.1/2_2021_12_14_00_14_53Z.csv" 
+  - "/data/forest_trav/lfe_ul_v0.1/3_2021_12_13_23_51_33Z.csv"
+  # - "/data/forest_trav/lfe_ul_v0.1/8_2021_11_18_00_23_24Z.csv" 
+  - "/data/forest_trav/lfe_ul_v0.1/1_2021_12_14_00_02_12Z.csv"
+  - "/data/forest_trav/lfe_ul_v0.1/6_2021_10_28_04_03_11Z.csv"
+  # - "/data/forest_trav/lfe_ul_v0.1/5_2021_10_28_03_54_49Z.csv" 
+  # - "/data/forest_trav/lfe_ul_v0.1/4_2021_12_13_23_42_55Z.csv" 
+  - "/data/forest_trav/lfe_ul_v0.1/7_2021_10_28_04_13_12Z.csv" 
+
+test_data_sets: 
+  - "/data/forest_trav/lfe_hl_v0.1/9_2022_02_14_23_47_33Z.csv" 
+
+patch_strategy: grid
+train_ratio: 0.8
+min_patch_sample_nbr: 150
+use_cv: True
+max_cv: 10
+cv_nbr: 0
+
+# Hyper parameters for learning
+lr:  0.0001
+weight_decay:   0.0009
+max_epochs:     60
+batch_size:     64
+val_batch_size: 64
+check_val_every_n_epoch: 5
+log_every_n_steps: 3
+es_patience: 3
+use_label_weights: False
+ce_label_weights: [ 1.0, 1.0]
+ce_threshold: 0.5
+
+# Accelerator
+ngpus:           1.0
+accelerator:    'cuda'
+
+# Voxel default config
+feature_set_key: occ_int_mr_hm
+voxel_size: 0.1
+nvoxel_leaf: 32
+shuffle: True
+random_seed: 23111989
+
+# Loss configureation
+loss_function_tag: TwoHeadLoss 
+ce_loss_weight: 1.5
+rec_loss_weight: 0.3
+
+# Model configuration
+model_name:  UNet4LMCD #UNet4LMCD, UNet4THM
+model_skip_connection_key: s3
+model_stride: [1, 2, 2, 2, 2, 2]
+model_skip_connection: [0, 0, 0, 0, 0]
+model_nfeature_enc_ch_out: 12
+
+# Data Augmentation
+use_data_augmentation: True
+data_augmenter_noise_chance: 0.0
+data_augmenter_noise_mean: 0.0
+data_augmenter_noise_std: 0.00
+data_augmenter_sample_pruning_chance: 0.05
+data_augmenter_batch_rotation_chance: 0.5
+data_augmenter_batch_translation_chance: 0.25
+data_augmenter_batch_nvoxel_displacement: 5.0
+data_augmenter_mirror_chance: 0.25
+
+# Feature scaling
+use_feature_scaling: True

@@ -1,0 +1,18 @@
+  # General params for the collision_mapper_node
+  auto_cm_interval: 60
+
+
+  # Params for the ProbTeMapperROS
+  te_update: 0.70
+  nte_update: 0.25
+  te_prob_threshold: 0.8
+  nte_prob_threshold: 0.2
+  fixed_map_prior: false  # Choose either between fixe map prior and weighted
+  te_prior_prob: 0.6
+  nte_prior_prob: 0.3
+
+  # Robot dimensions
+  collision_bbox: [0.2,-0.4, -0.4, 0.8, 0.4 , 0.5]
+  robot_bbox: [-0.8, -0.4, -0.5, 0.2, 0.4, 0.5]
+
+

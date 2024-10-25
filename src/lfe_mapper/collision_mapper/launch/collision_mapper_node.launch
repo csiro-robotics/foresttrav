@@ -1,0 +1,27 @@
+<launch>
+
+  <arg name="robot_name" default="r6" />
+
+
+  <group ns="$(arg robot_name)">
+    <remap from="/tf" to="tf" />
+    <remap from="/tf_static" to="tf_static" />
+    <node pkg="collision_mapper" type="collision_mapper_node" name="collision_mapper_node" clear_params="true" output="screen">
+      <rosparam command="load" file="$(find collision_mapper)/config/collision_mapper_default.yaml" />
+
+      <param name="world_frame" value="odom"/>
+      <param name="odom_frame" value="odom"/>
+      <param name="robot_frame" value="base_link"/>
+      <param name="main_rate" value="1.0" />
+      <param name="cs_rate" value="5.0" />
+      <param name="visualize_collision_states" value="true" />
+      <param name="visualize_collision_map" value="true" />
+      <param name="compute_collision_map_" value="true" />
+
+      <!-- Remapping -->
+      <remap from="~rc_toggle" to="/squash/logging_state" />
+      <remap from="~rc_trigger" to="/squash/logging_trigger" />
+
+    </node>
+  </group>
+</launch>

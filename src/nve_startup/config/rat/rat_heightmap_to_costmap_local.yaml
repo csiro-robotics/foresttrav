@@ -1,0 +1,57 @@
+########################################################################################################################
+# Heightmap To Costmap Node Parameters For Rat Platform
+########################################################################################################################
+
+static_parameters:
+
+  fatal_obstacle_list_topic:   "topometric_fatal_obstacle_list"    # The topic name to get the obstacle list to use for fatal obstacles
+  penalty_obstacle_list_topic: "topometric_penalty_obstacle_list"  # The topic name to get the obstacle list to use for penalised obstacles
+  
+  # ----------------------------------------------------------------------------
+
+  fatal_step:       0.2  # The max allowable step height (metres)
+  platform_radius:  0.4  # The radius of the circle segment required to constitute a platform (metres)
+  platform_arc:    45.0  # The arc angle of the circle segment required to constitute a platform (degrees)
+
+  slope_radius:    0.2     # The radius of the circle to use to estimate the slope with
+  slope_threshold: 0.7071  # The cosine of the max allowable slope
+
+  # ----------------------------------------------------------------------------
+
+dynamic_parameters:
+
+  debug: false  # Publish debug visualisations and set log level to debug
+
+  # Gridmap geometry
+
+  map_frame_id:         odom         # The frame id to use for the map
+  track_point_frame_id: ground_link  # The frame to position the map relative to
+
+  resolution:    {default:  0.1, min:   0.001, max:  1.0}  # The side length of the map cells to use in metres
+  length_in_x:   {default:  7.0, min:   0.100, max: 50.0}  # The length between the map x extents in metres
+  length_in_y:   {default:  7.0, min:   0.100, max: 50.0}  # The length between the map y extents in metres
+  position_x:    {default:  0.0, min: -50.000, max: 50.0}  # The initial x position of the map in metres
+  position_y:    {default:  0.0, min: -50.000, max: 50.0}  # The initial y position of the map in metres
+  track_point_x: {default:  0.0, min: -50.000, max: 50.0}  # The x position in track_point_frame_id at which to position the map in metres
+  track_point_y: {default:  0.0, min: -50.000, max: 50.0}  # The y position in track_point_frame_id at which to position the map in metres
+  track_point_z: {default:  0.0, min: -50.000, max: 50.0}  # The z position in track_point_frame_id at which to position the map in metres
+
+  # Output
+  costmap_topic:        costmap         # The topic to publish the rasg_nav_msgs/DensePointCloud2 to
+  occupancy_grid_topic: occupancy_grid  # The topic to publish the nav_msgs/OccupancyGrid to
+
+  # Input
+  heightmap_topic:                heightmap                              # The topic to receive the rasg_nav_msgs/Heightmap on
+  heightmap_expiry:               {default:  1.0, min: 0.0, max: 100.0}  # How many seconds to keep a rasg_nav_msgs/Heightmap for
+  publish_on_heightmap:           true                                   # Should the costmap be published when a rasg_nav_msgs/Heightmap message is received?
+  dense_point_cloud_2_topic:      costmap_converter_node/dense_te_costmap                                    # The topic to receive the rasg_nav_msgs/DensePointCloud2 on
+  dense_point_cloud_2_expiry:     {default:  2.0, min: 0.0, max: 100.0}  # How many seconds to keep a rasg_nav_msgs/DensePointCloud2 for
+  publish_on_dense_point_cloud_2: false                                  # Should the costmap be published when a rasg_nav_msgs/DensePointCloud2 message is received?
+
+  # Costmap settings
+  confident_samples:       {default: 8,   min: 0,   max: 65536}    # After how many samples should the normals from OHM be considered true?
+                                                                   # The z component is interpolated to 1.0 when the sample count is below this.
+  step_limit:              {default: 0.3, min: 0.0, max:     1.0}  # How close does a level have to be to count as a transition? (metres)
+
+########################################################################################################################
+########################################################################################################################

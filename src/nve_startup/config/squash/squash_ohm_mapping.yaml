@@ -1,0 +1,203 @@
+########################################################################################################################
+# OHM Mapping Node Parameters for Squash Platform
+########################################################################################################################
+ohm_mapping:
+
+  static_parameters:
+
+    # General Parameters
+    start_delay: 5 # Maximum time node will wait for SLAM to be initialised before starting (s).
+
+    # OHM Parameters
+    odometry_frame:           odom         # The coordinate frame in which the sensors move.
+    origin_frame:             base_link    # The coordinate frame which the map is centered on.
+    ground_link_frame:        ground_link  # The moving vehicle reference frame near the ground. Used to generate heightmap.
+    map_publish_frame:        odom         # The frame that the map should be published in (publish_map below, not heightmap)
+    max_publish_range:        20.0          # Maximum range for publishing (zero if unlimited)
+    publish_extended:         true        # Publish extended fields?
+    traversal_enable:         true        # Enable traversal calculation? (ie decay-rate)
+    secondary_samples_enable: true        # Enable secondary samples?
+    ndt_tm_enable:            true        # Enable ndt-tm? (incorporating permeability and intensity)
+    sparse_enable:            true
+
+    sensors:
+      - sensor_point_topic: slam/odom/high/cloud
+        sensor_frame: slam_base_link  # The origin of this frame is the origin of the sensor
+        points_frame: odom            # The sensor provides samples in this frame
+
+        get_intensities:    true  # Should intensity values from this sensor be used?
+        get_timestamps:     true   # Should timestamp values from this sensor be used?
+        get_return_numbers: true  # Should return number values from this sensor be used?
+
+        ray_half_extents: {x: 10.0, y: 10.0, z: 6.0}  # Clip sensor rays to this distance
+
+        # Additional vehicle clipping. No dynamic config support due to complexity.
+        # Parameter is a vector of planes eg: { x: 0, y: 0, z: 1, w: -0.1 }.
+        # Coordinates are in sensor_frame.
+        # The XYZ normal will be renormalised so do not need to be normal here.
+        # The w value is the -D value: the inverse of the distance along the plane normal the plane sits
+        # from the origin. A negative increase in w pushes the plane away from the origin.
+        # vehicle_clip_planes: [ { x: 1, y: 0, z: 1, w: -0.4 }, { x: 0, y: 0, z: 1, w: -0.1 } ]
+
+        # Primitive shapes to filter self strikes with.
+        # If a ray passes through one of these shapes, then
+        # self_strike_clip_length will be clipped from its start.
+        # Fields:
+        #   type: type of shape (0 is a box, 1 is a cylinder with z as primary
+        #         axis)
+        #   full_extents: the full side lengths of a bounding box around the
+        #                 shape
+        #   frame_id: the tf frame that the shape is relative to
+        #   position: the position of the centre of the shape's bounding box
+        #             relative to frame_id
+        #   orientation: the orientation of the shape and its bounding box
+        #                relative to frame_id
+        #   enabled: should this shape be used?
+        self_strike_shapes: []
+          # TODO(TH): Configure this for this platform
+          # - type: 0  # Box
+          #   full_extents: {x: 1.4, y: 0.8, z: 0.5}
+          #   frame_id: base_link
+          #   position: {x: 0.1, y: 0.0, z: 0.1}
+          #   orientation: {w: 1.0, x: 0.0, y: 0.0, z: 0.0}
+          #   enabled: true
+
+        ray_near_clip: 0.0 # Near range clipping: this much of each ray start is removed before mapping.
+
+        # When set to a positive value, this much of each ray start is removed
+        # when that ray is considered a self-strike (by either
+        # vehicle_clip_planes or self_strike_shapes). This is applied after
+        # ray_near_clip.
+        # This should be set in order to catch direct self-strikes where the
+        # sample is part of the vehicle and streamers where the sample is
+        # between the edge of the vehicle and a surface behind it.
+        # The Velodyne docs say dual returns work if there is more than 1m
+        # separation between the returns. Therefore this value should probably
+        # be the distance from the sensor to the furthest point on the vehicle
+        # plus 1m.
+        self_strike_clip_length: 2.0
+
+        # Discard point as well when entire ray is clipped? This should be
+        # enabled when using self_strike_shapes in order to drop any actual
+        # self-strike samples
+        discard_clipped_ray: true
+
+        ray_batch_min_count: 1024 # Minimum number of ray samples required to invoke GPU processing.
+        ray_batch_size: 2048 # The preferred GPU ray batch size. 2048 should be near optimal for an Intel integrated GPU.
+
+    # Heightmap static parameters
+    heightmap:
+      # High frequency heightmap parameters, used for local navigation. Configure for reduced workload. Generally smaller.
+      high:
+        # Use a background thread to generate this heightmap? Note: each async heightmap has its own thread.
+        async:        false
+      # Low frequency heightmap parameters, used for traversability. Configure for higher accuracy. Generally larger.
+      low:
+        async:        true
+
+########################################################################################################################
+
+  dynamic_parameters:
+
+    # General parameters
+    publish_map_frequency:      {default: 1,  min: 1, max: 100} # Rate at which OHM map is published (Hz).
+    clearing_pattern_frequency: {default: 5,  min: 1, max: 100} # Rate at which to apply clearing pattern (Hz).
+    map_cull_frequency:         {default: 2,  min: 1, max: 10 } # Rate at which OHM map culling occurs (Hz).
+
+    # Debug parameters
+    debug_enabled: false  # Flag denoting whether debug functionality executes.
+
+    # Occupancy probability controls
+    occupancy_resolution: {default: 0.1, min: 0.1, max: 0.5} # Voxel resolution
+    occupancy_hit_probability: {default: 0.7, min: 0.5, max: 1.0 }
+    occupancy_miss_probability: {default: 0.45, min: 0.0001, max: 0.49999999 }
+    occupancy_voxel_min: {default: -2.0, min: -1000000.0, max: 0.0 }
+    occupancy_voxel_max: {default: 10.0, min: 0.0, max: 1000000.0 }
+
+    # Clearing pattern controls. Clearing pattern is applied to erode voxels which would not otherwise be removed.
+    # Only the first occupied voxel hit is eroded for each ray.
+    # Cone axis configuration. Generally x forward, z up. The vector will be normalised across all three values.
+    clearing_cone_axis_x: {default: 0, min: -1, max: 1}
+    clearing_cone_axis_y: {default: 0, min: -1, max: 1}
+    clearing_cone_axis_z: {default: 1, min: -1, max: 1}
+    clearing_probability_scale: {default: 1.0, min: 0.01, max: 100.0 } # Multiplier of the normal occupancy_miss_probability used by clearing pattern.
+    clearing_cone_angle: {default: 240.0, min: 5.0, max: 360.0 } # Cone angle around the axis in degrees.
+    clearing_range: {default: 10.0, min: 1.0, max: 20.0 } # Cone base length. Actually behaves more like a sphere radius.
+    clearing_range_min: {default: 0.0, min: 0.0, max: 10.0 } # Do not clear voxels before this ray distance.
+    clearing_angular_resolution: {default: 2.0, min: 0.1, max: 20.0 } # Controls the ray density (degrees)
+    clearing_enable: false # Use the clearing pattern?
+    clearing_visualise: false # Publish visualisations?
+
+    # Occupancy map extents clipping. Limit map to around this size.
+    # This represents *half* the diagonal of an axis aligned box around the sensor within which we maintain a map.
+    # Map may actually be slightly larger as any region overlapping this box is maintained, but all input rays are
+    # clipped to this box.
+    map_clip_box_half_x: {default: 15, min: 2, max: 100}
+    map_clip_box_half_y: {default: 15, min: 2, max: 100}
+    map_clip_box_half_z: {default:  4, min: 2, max: 100}
+
+    # Heightmap parameters
+    heightmap:
+      # High frequency heightmap parameters, used for local navigation. Configure for reduced workload. Generally smaller.
+      high:
+        # Map update frequency. Zero to disable this heightmap.
+        frequency: {default: 5, min: 0, max: 20}
+        # Heightmap generation extents clipping. Limit heightmap generation map to this size.
+        # This represents *half* the diagonal of an axis aligned box around the sensor within which we build the heightamp.
+        # Set to zero to build the full map extents, however, that creates extraneous work. Explicitly clipping to the same
+        # size as the map improves performance.
+        half_x: {default: 3.5, min: 0, max: 20}
+        half_y: {default: 3.5, min: 0, max: 20}
+        half_z: {default: 4,   min: 0, max: 20}
+        # Expansion mode
+        # 0: planar expansion, single layer
+        # 1: simple fill (slow), single layer
+        # 2: layered fill, unordered, multi-layer (do not use)
+        # 3: layered fill, ordered by height, multi-layer
+        mode: {default: 3, min: 0, max: 3}
+        # Filter virtual surface voxels with fewer N-26 connections than the value set. Such voxels are removed from the
+        # heightmap. Recommended range: [0, 3]. Layered heightmap mode only.
+        virtual_filter_threshold: {default: 3, min: 0, max: 26}
+        # Generate virtual heightmap surface in the interface between unknown and free voxels?
+        generate_virtual_surfaces: true
+        # Promote/prefer virtual surface candidates below the vehicle position over real candidates above?"
+        # This can generate better ground results where the ground cannot be properly observed.
+        promote_virtual_below: true
+        # Allow the use of voxel mean if that layer is available in the source map.
+        allow_voxel_mean: true
+        # Allow the use of covariance to estimate surface normals if covariance is available in the source map.
+        allow_covariance: true
+        topic:       "heightmap"        # Heightmap message topic
+        topic_cloud: "heightmap_cloud"  # Heightmap cloud topic
+
+      # Low frequency heightmap parameters, used for traversability. Configure for higher accuracy. Generally larger.
+      low:
+        frequency: {default: 0, min: 0, max: 10}
+        half_x:    {default: 6, min: 0, max: 20}
+        half_y:    {default: 6, min: 0, max: 20}
+        half_z:    {default: 4, min: 0, max: 20}
+        mode:      {default: 3, min: 0, max:  3}
+        virtual_filter_threshold: {default: 3, min: 0, max: 26}
+        generate_virtual_surfaces: true
+        promote_virtual_below: true
+        allow_voxel_mean: true
+        allow_covariance: true
+        topic:       "heightmap_low"
+        topic_cloud: "heightmap_low_cloud"
+
+      # Shared parameters
+      clearance: {default: 0.80, min: 0.00, max: 10.0} # Required overhead clearance. (m)
+      ceiling:   {default: 1.00, min: 0.00, max: 10.0} # Ignore voxels above current height + ceiling (m)
+      floor:     {default: 2.00, min: 0.00, max: 10.0} # Ignore voxels below current height - floor (m)
+      # Size of the square region around the vehicle which is cache for preservation when no new data available
+      # (unobservable region).
+      local_surface_extents: {default: 1.5, min: 0.0, max: 5.0}
+
+    visualise_rays: false  # Visualise the rays being inserted into the map using RViz markers?
+
+    publish_map:          ohm           # Publishing topic of occupancy map as a point cloud.
+    publish_markers:      ohm_mapping   # Publishing topic for marker messages
+    publish_occ_map:      ""
+    publish_self_strikes: "" # self_strikes  # Publishing topic of culled self-strike points.
+
+########################################################################################################################

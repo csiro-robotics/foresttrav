@@ -1,0 +1,14 @@
+# Default config for costmap_converter_node
+rate: 5.0           # Rate at which the node runs [Hz]
+world_frame: odom
+robot_frame: ground_link
+map_res: 0.1
+local_map_bounds: [-5.0, -5.0, -1.0, 5.0, 5.0, 1.0 ]
+num_vertical_voxels: 10
+
+# Parameters for virtual costing extension
+use_virtual: true
+use_patch_fill: true
+use_patch_flood_fill: true
+patch_leaf_size: 2
+min_adj_voxel: 3

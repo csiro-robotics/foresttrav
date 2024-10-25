@@ -1,0 +1,87 @@
+<launch>
+  <arg name="robot" default="fsquash" />
+
+  <arg name="output" default="screen" />
+  <arg name="odom_stage" default="high" doc="The Wildcat output stage to use (high or tail)." />
+  <arg name="respawn" default="true" />
+
+  <arg name="run_feature_mapper" default="True" doc="Should the feature mapper be run?" />
+  <arg name="run_ndt_te_estimation" default="false"
+    doc="Should FTM traversability estimator be run?" />
+  <arg name="run_reactive_lmp_planner" default="false"
+    doc="Should tf_completion for colour pipeline" />
+
+  <!-- Squash -->
+  <arg if="$(eval arg('robot') == 'squash')" name="pack" default="p5" />
+  <arg if="$(eval arg('robot') == 'squash')" name="c" default="squash" />
+  <arg if="$(eval arg('robot') == 'squash')" name="robot_name" default="r6" />
+  <arg if="$(eval arg('robot') == 'squash')" name="self_strike" default="squash" />
+
+  <!-- Squash -->
+  <arg if="$(eval arg('robot') == 'fsquash')" name="platform" default="squash" />
+  <arg if="$(eval arg('robot') == 'fsquash')" name="robot_name" default="r6" />
+  <arg if="$(eval arg('robot') == 'fsquash')" name="self_strike" default="squash" />
+  <arg if="$(eval arg('robot') == 'fsquash')" name="pack" default="p9" />
+
+  <arg name="ROSCONSOLE_FORMAT" default="${severity} ${time} ${node}: ${message}" />
+  <env name="ROSCONSOLE_FORMAT" value="$(arg ROSCONSOLE_FORMAT)" />
+
+  <group ns="$(arg robot_name)">
+    <remap from="/tf" to="tf" />
+    <remap from="/tf_static" to="tf_static" />
+
+    <node pkg="collision_mapper" type="collision_mapper_node" name="collision_mapper_node" clear_params="true">
+      <rosparam command="load" file="$(find nve_startup)/config/$(arg platform)/$(arg platform)_collision_mapper.yaml" />
+
+      <remap from="~rc_toggle" to="/$(arg platform)/logging_state" />
+      <remap from="~rc_trigger" to="/$(arg platform)/logging_trigger" />
+      <param name="auto_cm_interval" value="20" />
+
+    </node>
+
+    <node pkg="lfe_data_fuser" type="data_fuser_node.py" name="data_fuser_node" clear_params="true" output="screen">
+      <rosparam command="load" file="$(find nve_startup)/config/$(arg platform)/$(arg platform)_data_fuser.yaml" />
+      
+      <!-- CHANGE FOR SAVING DATA SET -->
+      <param name="data_root_dir" value="/data/temp/qcat_forest_1_lmix" />
+      <param name="data_set_name" value="qcat_forest_1_lmix" />
+
+      <remap from="feature_map" to="/$(arg robot_name)/ohm" />
+      <remap from="collision_map" to="/$(arg robot_name)/collision_mapper_node/collision_cloud" />
+      <remap from="collision_poses" to="/$(arg robot_name)/collision_mapper_node/poses" />
+      <remap from="collision_poses" to="/$(arg robot_name)/collision_mapper_node/poses" />
+    </node>
+
+
+        <!-- ONLINE Treaining node -->
+      <node pkg="ros_scnn_tm" type="scnn_online_trainer.py" name="scnn_online_trainer" clear_params="true" output="screen">
+          <!-- Default learning params, non-ros -->
+          <param name="learning_param_file" value="$(find nve_startup)/config/squash/squash_online_learning_params.yaml" />
+          
+          <!-- ROS specific params -->
+          <param name="main_rate" value="1.0" />
+          <param name="train_from_scratch" value="True" />
+          <param name= "min_pose_dist" value="1.0" />
+
+          <!-- Remaps for topics and intemediate out directoriesf -->
+          <param name="~model_out_dir" value="/data/debug/test_online_trainer/incemental_online_models/new_model_on_it_01" />
+          <remap from="~new_training_data" to="/$(arg robot_name)/data_fuser_node/new_training_data" />
+
+    </node>
+
+    <node pkg="ros_scnn_tm" type="scnn_ftm_ros.py" name="scnn_ftm_ros" clear_params="true">
+      <param name="cv_start" value="0" />
+      <param name="cv_number" value="10" />
+      <param name="device" value="cuda" />
+      <param name="visualise_colour" value="True" />
+
+      <remap from="~input_feature_cloud" to="ohm" />
+      <remap from="~tep_cloud" to="~traversability_cloud" />
+      <remap from="~online_model_update"
+        to="/$(arg robot_name)/scnn_online_trainer/online_model_update_trigger" />
+
+    </node>
+
+
+  </group>
+</launch>

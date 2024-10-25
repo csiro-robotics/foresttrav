@@ -1,0 +1,18 @@
+# To get VS Code to treat this as yaml add the following to your user settings
+# json:
+# "files.associations": {
+#   "*.meta": "yaml",
+#   "colcon.pkg": "yaml"
+# }
+
+# https://colcon.readthedocs.io/en/released/user/configuration.html#meta-files
+# This allows for package and path specific colcon configuration
+
+names:
+  ohm_mapping:
+    cmake-args:
+      # Disable intensities and return numbers in ohm_mapping because we do not
+      # currently use them and there is a tiny performance gain from excluding
+      # the option during compilation
+      - "-DOHM_MAPPING_ENABLE_INTENSITIES:BOOL=Yes"
+      - "-DOHM_MAPPING_ENABLE_RETURN_NUMBERS:BOOL=Yes"

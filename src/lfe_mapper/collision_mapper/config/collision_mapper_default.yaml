@@ -1,0 +1,27 @@
+te_update: 0.55
+nte_update: 0.15
+te_prob_threshold: 0.8
+nte_prob_threshold: 0.2
+fixed_map_prior: false  # Choose either between fixe map prior and weighted
+te_prior_prob: 0.6
+nte_prior_prob: 0.3
+min_pose_dist: 0.5
+
+# Robot dimensions
+collision_bbox: [0.0,-0.6, -1.0, 0.6, 0.6 , 1.2]
+robot_bbox: [-1.2, -0.6, -1.0, 0.2, 0.6, 1.2]
+auto_cm_interval: 120
+
+# Ground Extraction Mode: 
+# non_ground_update: 0.55
+# ground_update: 0.40
+# non_ground_threshold: 0.75
+# ground_threshold: 0.3
+# ground_collision_bbox: [-1.0,-0.45, -2.5, 0.30, 0.45 ,-0.4]
+# non_ground_bbox: [-1.0,-0.45, -0.4, 0.30, 0.45 ,1.5]
+
+# # Saving feature_map as csv
+# extract_te_features: True
+# extract_nte_features: True
+
+# map_roi: [-40, -40, -2.5, 40, 40, 0.5]

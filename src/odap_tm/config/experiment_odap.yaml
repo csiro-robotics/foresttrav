@@ -1,0 +1,6 @@
+
+
+m0:
+  model_name: UNet4LMCD
+  use_default_scaler: True
+  default_scaler_path: "/data/base_models_24_5_16_hl/dense_base/24_05_16_10_49_UNet4THM_occ_int_hm_mr_test_train_epoch_150_fn_12/scaler_cv_3.joblib"

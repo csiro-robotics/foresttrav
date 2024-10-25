@@ -1,0 +1,23 @@
+# Default yaml file to process the galactic file
+
+# Assumptions:
+# - Bags has been cleaned up; meaning no bag.active files anymore
+# - Wildcat has been processed,
+# - rosbags-convert has been called and rc_states generated
+ 
+
+path:
+  root_data_dir: /data/exp_data_sets
+  data_out_dir: /data/
+
+
+ohm_params:
+  resolution: [ 0.4, 0.2, 0.1]
+  map_mode: "tm"
+  traj_type: ["odom", "global"]
+
+sem_traj:
+  config_file: "config_file"
+
+colorization: 
+  

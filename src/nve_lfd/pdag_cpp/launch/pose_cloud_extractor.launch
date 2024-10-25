@@ -1,0 +1,15 @@
+<launch>
+  <arg name="robot_name" default="r6" />
+
+
+  <group ns="$(arg robot_name)">
+    <remap from="/tf" to="tf"/>
+    <remap from="/tf_static" to="tf_static"/>
+    <node pkg="pdag_cpp" type="pose_cloud_extactor_node" name="pose_cloud_extactor_node" clear_params="true" output="screen">
+      <rosparam command="load" file="$(find pdag_cpp)/cfg/default.yaml"/>
+      <remap from="ohm_cloud" to="ohm" />
+
+    </node>
+  </group>
+
+</launch>

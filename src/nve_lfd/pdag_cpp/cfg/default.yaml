@@ -1,0 +1,8 @@
+file_dir: /data/processed/2021_10_28_04_03_11Z
+target_frame: "odom"
+
+# Feature sets to track
+enable_colour: True
+second_return_enable: True
+traversal_enable: True
+ndt_tm_enable: True

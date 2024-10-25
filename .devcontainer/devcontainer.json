@@ -1,0 +1,75 @@
+// For format details, see https://aka.ms/devcontainer.json.
+{
+	"name": "nve_noetic",
+	"build": {
+		"dockerfile": "Dockerfile",
+		"context": "..",
+	},
+	"customizations": {
+		"vscode": {
+			"settings": {
+				"editor.codeActionsOnSave": {
+					"source.organizeImports": true
+				},
+				"editor.formatOnSave": false,
+				"files.insertFinalNewline": true,
+				"includePath": [
+					"${default}",
+					"/opt/ros/noetic/include",
+					// "/opt/wildcat/include"
+				],
+				"python.formatting.provider": "black",
+				"python.linting.enabled": false,
+				"python.linting.pylintEnabled": false,
+				"isort.check": true,
+				"isort.args": [
+					"--profile",
+					"black"
+				],
+				"redhat.telemetry.enabled": false,
+				"remote.autoForwardPorts": false
+			},
+			"extensions": [
+				"ms-vscode.cpptools",
+				"ms-python.python",
+				"ms-iot.vscode-ros",
+				"redhat.vscode-yaml",
+				"redhat.vscode-xml",
+				"twxs.cmake"
+			]
+		}
+	},
+	// Add volume mounts to persist things like ccache database between container runs
+	"mounts": [
+		"type=bind,source=/etc/localtime,destination=/etc/localtime,readonly",
+		"type=bind,source=/tmp/.X11-unix,destination=/tmp/.X11-unix",
+		"type=bind,source=${localEnv:XAUTHORITY},destination=/home/vscode/.Xauthority",
+		"type=bind,source=/home/${localEnv:USER}/data,destination=/data",
+		"type=volume,source=refarm-ccache,destination=/ccache"
+		// "type=bind,source=/usr/local/cuda,destination=/usr/local/cuda,readonly"
+	],
+	"containerEnv": {
+		"DISPLAY": "${localEnv:DISPLAY}",
+		"NVIDIA_DRIVER_CAPABILITIES": "compute,utility,graphics",
+		"NVIDIA_VISIBLE_DEVICES": "all"
+	},
+	"runArgs": [
+		"--device",
+		"/dev/dri:/dev/dri",
+		"--net",
+		"host",
+		"--ipc",
+		"host",
+		"--pid",
+		"host",
+		"--privileged",
+		"--runtime",
+		"nvidia",
+		"--name",
+		"nve-os-defcontainer"
+	],
+	"postCreateCommand": "sudo chown -R vscode /ccache",
+	"remoteUser": "ros",
+	"workspaceFolder": "/nve_ws",
+	"workspaceMount": "source=${localWorkspaceFolder},target=/nve_ws,type=bind",
+}

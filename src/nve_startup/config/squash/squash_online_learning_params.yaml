@@ -1,0 +1,85 @@
+# Experiment configurations
+experiment_name:  '2024_online_training'
+experiment_root_dir: /data/temp/dt_2024_online_training
+debug: True       # Flag to enter into debug mode, will not use wandb
+evaluate_test_set: True
+metric_rounding: 4
+save_model: True
+
+
+# Contioual learning parameters
+ft_lr: 0.00001     # The fintune learning rate
+base_lr:  0.0005     # The initial learning rate
+online_data_root_dir: /data/temp/dt_2024_online_training
+use_unlabelled_data: True
+cont_learning: True
+use_pretrained_model: False
+base_model_config: None
+
+use_default_scaler: True
+default_scaler_path: /data/sim_models/24_08_02/UNet4LMCD_ohm_ep_150_fn_12/scaler_cv_3.joblib
+
+training_strategy_key: None # test_train, cv_test_train,  cv_patch, cv_scene
+use_data_set_key: False
+data_set_key:  None         # lfe_hl: hand-labelled, lfe_cl: confident hand-labels 
+base_train_data_sets: []
+base_test_data_sets: 
+  - "/data/forest_trav/lfe_hl_v0.1/9_2022_02_14_23_47_33Z.csv" 
+
+patch_strategy: grid
+patch_width: 3.2
+min_pose_dist: 0.3
+
+train_ratio: 0.8
+min_patch_sample_nbr: 100
+use_cv: False
+max_cv: 1
+cv_nbr: 0
+
+# Hyper parameters for learning
+lr:  0.0005
+weight_decay:   0.0009
+max_epochs:     20
+batch_size:     64
+val_batch_size: 64
+check_val_every_n_epoch: 99
+es_patience: 2
+use_label_weights: False
+ce_label_weights: [ 2.0,  0.5]
+ce_threshold: [0.2, 0.8]      # Threshold use to get the model 
+# Accelerator
+ngpus:           1.0
+accelerator:    'cuda'
+
+# Voxel default config
+feature_set_key: ohm
+voxel_size: 0.1
+nvoxel_leaf: 32
+shuffle: True
+random_seed: 23111989
+
+# Loss configureation
+loss_function_tag: TwoHeadProbLoss 
+ce_loss_weight: 1.0
+rec_loss_weight: 0.25
+
+# Model configuration
+model_name:  UNet4LMCD #UNet4LMCD, UNet4THM
+model_skip_connection_key: s3
+model_stride: [1, 2, 2, 2, 2, 2]
+model_skip_connection: [0, 0, 0, 0, 0]
+model_nfeature_enc_ch_out: 8
+
+# Data Augmentation
+use_data_augmentation: True
+data_augmenter_noise_chance: 0.0
+data_augmenter_noise_mean: 0.0
+data_augmenter_noise_std: 0.00
+data_augmenter_sample_pruning_chance: 0.05
+data_augmenter_batch_rotation_chance: 0.5
+data_augmenter_batch_translation_chance: 0.25
+data_augmenter_batch_nvoxel_displacement: 5.0
+data_augmenter_mirror_chance: 0.25
+
+# Feature scaling
+use_feature_scaling: True

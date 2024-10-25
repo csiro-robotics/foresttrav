@@ -1,0 +1,31 @@
+<?xml version="1.0"?>
+<package format="2">
+  <name>ohm_colour_fuser</name>
+  <version>0.0.0</version>
+  <description>The ftm_ros package</description>
+
+  <!-- One maintainer tag required, multiple allowed, one person per tag -->
+  <maintainer email="rue011@csiro.au">rue011</maintainer>
+
+  <license>TODO</license>
+
+  <buildtool_depend>catkin</buildtool_depend>
+
+  <depend>roscpp</depend>
+  <depend>sensor_msgs</depend>
+  <depend>geometry_msgs</depend>
+  <depend>ohm</depend>
+  <depend>tf2_ros</depend>
+  <depend>pcl_ros</depend>
+  <depend>pcl_conversions</depend>
+  <depend>nve_core</depend>
+  <depend>perception_pcl</depend>
+  <!-- <depend>visualization_msgs</depend>
+
+  <depend>geometry_msgs</depend>
+  <depend>rosbag</depend>
+  <depend>std_msgs</depend>
+  <depend>nve_ia</depend> -->
+  <!-- <depend>nve_ia</depend> -->
+
+</package>

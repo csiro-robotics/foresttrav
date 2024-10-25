@@ -1,0 +1,5 @@
+<launch>
+    <node pkg="rc_trajectory_labeler" type="traj_labler_node" name="traj_labler_node" clear_params="true" output="screen">
+      <rosparam command="load" file="$(find rc_trajectory_labeler)/config/config_traj_labler_node.yaml" />
+    </node>
+</launch>

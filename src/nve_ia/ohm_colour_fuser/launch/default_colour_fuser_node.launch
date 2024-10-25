@@ -1,0 +1,18 @@
+<launch>
+
+  <arg name="robot_name" default="r6" />
+
+
+  <group ns="$(arg robot_name)">
+    <remap from="/tf" to="tf"/>
+    <remap from="/tf_static" to="tf_static"/>
+    <node pkg="ohm_colour_fuser" type="ohm_colour_fuser_node" name="ohm_cf_node" clear_params="true" output="screen">
+      <rosparam command="load" file="$(find ohm_colour_fuser)/config/default_colour_fuser_node.yaml"/>
+      <!-- <rosparam param="map_bounds">[-5.0, -5.0, -3.0, 5.0, 5.0, 3.0]</rosparam> -->
+      <param name="rate" value="15.0"/>
+      <param name="colour_mode" value="0" />
+      <remap from="~rgb_cloud_in" to="/ohm_offline_colour_fuser_node/colour_cloud"/>
+      <remap from="~rgb_cloud_compressed_in" to="/r6/coloured_points"/>
+    </node>
+  </group>
+</launch>
