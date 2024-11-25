@@ -14,7 +14,6 @@
   <depend>python3-sklearn</depend>
   <depend>python3-sklearn-intelex</depend>
   <depend>python3-opencv</depend>
-  <depend>plyfile</depend>
   <depend>tf2_sensor_msgs</depend>
 
 </package>

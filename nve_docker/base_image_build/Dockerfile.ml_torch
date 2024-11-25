@@ -77,4 +77,3 @@ RUN pip3 install matplotlib \
   easydict \
   tabulate \
   wandb\ 
-  plyfile 

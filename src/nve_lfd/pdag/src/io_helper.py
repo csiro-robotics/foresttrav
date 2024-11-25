@@ -1,16 +1,8 @@
 from pathlib import Path
 
-from plyfile import PlyData, PlyElement
-
 import numpy as np
 import pandas as pd
 
-
-def read_ply_file(file_name: str) -> np.ndarray:
-    """Reads a ply file and returns the data as a numpy array"""
-    plydata = PlyData.read(file_name)
-
-    return np.array(plydata["vertex"].data[["x", "y", "z"]].tolist())
 
 
 def read_all_ply_files_as_df(data_dir: Path) -> pd.DataFrame:
