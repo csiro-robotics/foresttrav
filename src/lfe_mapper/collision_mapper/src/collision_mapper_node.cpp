@@ -8,6 +8,7 @@
 #include <ohm/DefaultLayer.h>
 #include <ohm/KeyRange.h>
 #include <ohm/OccupancyMap.h>
+#include <ohm/VoxelSemanticLabel.h>
 
 #include <Eigen/Geometry>
 
