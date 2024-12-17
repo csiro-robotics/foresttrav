@@ -154,11 +154,7 @@ RUN apt-get update \
 # Install Machine Learning python packafges
 RUN pip3 install colcon-mixin rosbags matplotlib pandas scikit-learn opencv-python scikit-learn-intelex wandb open3d tabulate rosnumpy
 RUN pip3 install --upgrade numpy click
-# As documented in http://wiki.ros.org/docker/Tutorials/Hardware%20Acceleration
-ENV NVIDIA_VISIBLE_DEVICES \
-    ${NVIDIA_VISIBLE_DEVICES:-all}
-ENV NVIDIA_DRIVER_CAPABILITIES \
-    ${NVIDIA_DRIVER_CAPABILITIES:+$NVIDIA_DRIVER_CAPABILITIES,}all
+
 
 # Adding aliases for easier life and running it
 ARG USERNAME=ros

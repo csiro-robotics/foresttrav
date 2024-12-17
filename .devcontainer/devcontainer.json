@@ -16,7 +16,6 @@
 				"includePath": [
 					"${default}",
 					"/opt/ros/noetic/include",
-					// "/opt/wildcat/include"
 				],
 				"python.formatting.provider": "black",
 				"python.linting.enabled": false,
@@ -39,14 +38,11 @@
 			]
 		}
 	},
-	// Add volume mounts to persist things like ccache database between container runs
 	"mounts": [
 		"type=bind,source=/etc/localtime,destination=/etc/localtime,readonly",
 		"type=bind,source=/tmp/.X11-unix,destination=/tmp/.X11-unix",
 		"type=bind,source=${localEnv:XAUTHORITY},destination=/home/vscode/.Xauthority",
 		"type=bind,source=/home/${localEnv:USER}/data,destination=/data",
-		"type=volume,source=refarm-ccache,destination=/ccache"
-		// "type=bind,source=/usr/local/cuda,destination=/usr/local/cuda,readonly"
 	],
 	"containerEnv": {
 		"DISPLAY": "${localEnv:DISPLAY}",
