@@ -77,3 +77,4 @@ Notes:
 - Colour fusion in forest can lead to decrease in performance, if the colour is not clear within a voxel or if the training data set has frequent occlusions and painting the voxels the wrong colour. 
 
 - In some of the older (online) data set there are `mean_<feature_name>` features. This is a mean value convolution for a voxel given its 27 neighboors. This contextual averaging douvles the feature set size (good for classical methods) but not necessary when using 3D convolutions. 
+

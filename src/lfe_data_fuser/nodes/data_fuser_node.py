@@ -1,5 +1,11 @@
-#!/usr/bin/env python
+# MIT
+#
+# Copyright (c) 2024 Commonwealth Scientific and Industrial Research Organisation (CSIRO) 
+# Queensland University of Technology (QUT)
+#
+# Author:Fabio Ruetz
 
+#!/usr/bin/env python
 import threading
 from pathlib import Path
 
