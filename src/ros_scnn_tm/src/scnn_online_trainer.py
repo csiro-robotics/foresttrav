@@ -1,11 +1,11 @@
-#!/usr/bin/env python
-
-# Copyright (c) 2023
-# Commonwealth Scientific and Industrial Research Organisation (CSIRO)
-# Queensland University of Technology (QUT)
+# MIT License
 #
-# Author:Fabio Ruetz
+# Copyright (c) 2024 Commonwealth Scientific and Industrial Research Organisation (CSIRO)
+# Queensland University of Technology (QUT)
+# 
+# Author: Fabio Ruetz
 
+#!/usr/bin/env python   
 from dataclasses import dataclass
 from pathlib import Path
 
