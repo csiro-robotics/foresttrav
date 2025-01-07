@@ -1,4 +1,10 @@
-# Utils for sweeps uswing wand. Mostly parsing keys and other elements
+# MIT License
+#
+# Copyright (c) 2023 Commonwealth Scientific and Industrial Research Organisation (CSIRO)
+# Queensland University of Technology (QUT)
+# 
+# Author: Fabio Ruetz
+
 from pathlib import Path
 import pandas as pd
 

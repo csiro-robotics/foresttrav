@@ -5,12 +5,11 @@
 <package format="2">
   <name>scnn_tm</name>
   <version>0.0.1</version>
-  <description> This package contains the python nodes for forest traversability mapping using SCNN, mainly the MinkowksiEngine</description>
+  <description> This package contains the python nodes for forest traversability mapping using SCNN using TorchSparse</description>
 
-  <maintainer email="fabio.ruetz@csiro.au">Fabio Ruetz</maintainer>
-  
-  <license>CSIRO AUSTRALIA</license>
-  <author email="fabio.ruetz@csiro.au">Fabio Ruetz</author>
+  <license>MIT License</license>
+  <maintainer email="fabio.ruetz@gmail.com">Fabio Ruetz</maintainer>
+  <author email="fabio.ruetz@gmail.com">Fabio Ruetz</author>
 
   <buildtool_depend>catkin</buildtool_depend>
   <depend>rospy</depend>

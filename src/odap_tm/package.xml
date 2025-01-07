@@ -9,7 +9,7 @@
 
   <maintainer email="fabio.ruetz@csiro.au">Fabio Ruetz</maintainer>
   
-  <license>CSIRO AUSTRALIA</license>
+  <license>MIT</license>
   <author email="fabio.ruetz@csiro.au">Fabio Ruetz</author>
 
   <buildtool_depend>catkin</buildtool_depend>

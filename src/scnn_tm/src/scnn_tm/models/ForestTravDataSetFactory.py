@@ -1,9 +1,9 @@
-# Copyright (c) 2024
-# Commonwealth Scientific and Industrial Research Organisation (CSIRO)
-# Queensland University of Technology (QUT)
+# MIT License
 #
-# Author:Fabio Ruetz
-
+# Copyright (c) 2024 Commonwealth Scientific and Industrial Research Organisation (CSIRO)
+# Queensland University of Technology (QUT)
+# 
+# Author: Fabio Ruetz
 
 import numpy as np
 from sklearn.model_selection import KFold, train_test_split

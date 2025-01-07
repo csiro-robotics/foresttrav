@@ -1,3 +1,10 @@
+# MIT License
+#
+# Copyright (c) 2024 Commonwealth Scientific and Industrial Research Organisation (CSIRO)
+# Queensland University of Technology (QUT)
+# 
+# Author: Fabio Ruetz
+
 import pytest
 from pathlib import Path
 
@@ -10,10 +17,7 @@ from scnn_tm.models.OnlineForestTrav import (
     OnlineDataSetLoader,
 )
 
-# /data/forest_trav/online_lfe_data/heritage_forest_no_ohm_clear.hdf5
-# /data/forest_trav/online_lfe_data/QCAT_FOREST_1.hdf5
-# /data/forest_trav/online_lfe_data/QCAT_FOREST_2.hdf5
-############################################## THIS SHOULD BE IN TEST FILE
+
 HDF5_DEBUG_FILE = Path("/data/forest_trav/online_lfe_data/QCAT_FOREST_2.hdf5")
 
 FEATURE_SET = [
