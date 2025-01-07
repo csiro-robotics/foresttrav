@@ -26,8 +26,6 @@ class OnlineLfEDataFuserNode:
 
         self.feature_cloud_keys = None
 
-        # Used to collect the heade
-
         self.tf_buffer = tf2_ros.Buffer()
         self.tf_listener = tf2_ros.TransformListener(self.tf_buffer)
 
@@ -45,7 +43,6 @@ class OnlineLfEDataFuserNode:
 
         # Setup file based on rostime
         self.file_path = None
-        # self.generate_new_file()
 
         # Lock for all the elements
         self.lock = threading.Lock()
@@ -88,7 +85,7 @@ class OnlineLfEDataFuserNode:
         self.odom_frame = rospy.get_param("~odom_frame", "odom")
         self.robot_frame = rospy.get_param("~robot_frame", "base_link")
 
-        # feature_cloud_filtering
+        # Feature cloud filtering params
         self.radius = rospy.get_param("~radius", 3.0)
         self.height_low = rospy.get_param("~height_low", -0.5)
         self.height_high = rospy.get_param("~height_high", 0.8)
@@ -105,13 +102,15 @@ class OnlineLfEDataFuserNode:
         self.data_root_dir =  Path(self.data_root_dir) / datetime.now().strftime('%Y_%m_%d_%H_%M')
 
     def generate_new_file(self):
+        """Generates the files with the timestamp using ros-time"""
+        
         timestamp_str = str(rospy.Time.now().to_sec())
         file_dir = Path(self.data_root_dir)
         file_dir.mkdir(parents=True, exist_ok=True)
         self.file_path = file_dir / f"{self.data_set_name}_{timestamp_str}.hdf5"
 
     def feature_cloud_cb(self, msg):
-        """Callback to process the received msg"""
+        """Callback to process the received point cloud"""
 
         # Get feature cloud
         self.feature_cloud_msg = msg
@@ -135,7 +134,7 @@ class OnlineLfEDataFuserNode:
         self.poses = msg
 
     def feature_map_processing_cb(self, event=None):
-        """This callback stores the ohm map at a certain frequency"""
+        """This callback stores the ohm map at a fixef frequency"""
 
         # We want the ohm_clouds and the poses
         if not (
@@ -157,7 +156,6 @@ class OnlineLfEDataFuserNode:
         transform = self.tf_buffer.lookup_transform(
             self.odom_frame, self.robot_frame, rospy.Time(0)
         )
-        # rospy.logdebug_throttle(1.0, f"Lates transform {transform}")
 
         # Crop ohm-cloud around last position received
         ohm_feature_cloud = convert_np_array(
@@ -307,6 +305,7 @@ class OnlineLfEDataFuserNode:
         self.last_collision_map_update = rospy.Time.now()
 
     def debug_feature_cloud(self, cloud):
+        """ Debug function/callback"""
         data_out_type = np.dtype(
             [
                 ("x", "<f4"),
@@ -329,6 +328,7 @@ class OnlineLfEDataFuserNode:
 
 
 def convert_np_array(data_org: np.array, input_features: list, f_dtype=np.float32):
+    """Conversts the data into a uniform np.array with float type"""
     dtypes_feature = [(f_i, f_dtype) for f_i in input_features]
     feature_data = (
         data_org[input_features]
@@ -340,6 +340,7 @@ def convert_np_array(data_org: np.array, input_features: list, f_dtype=np.float3
 
 
 def mask_for_points_within_cylinder(points, center, radius, height_low, height_high):
+    """Cylindrical filter for a for a point cloud with arond 'centre'. Returns a boolean np.array (nx1) """
     # Calculate the distances of each point to the center of the cylinder
     distances_xy = np.linalg.norm(points[:, :2] - center[:2], axis=1)
     dist_z = np.abs(points[:, 2] - center[2])
@@ -353,6 +354,7 @@ def mask_for_points_within_cylinder(points, center, radius, height_low, height_h
 
 
 def rostime_to_string(rostime):
+    """Convertes the rostime to string"""
     # Extract timestamp components
     secs = rostime.secs
     nsecs = rostime.nsecs
@@ -363,6 +365,7 @@ def rostime_to_string(rostime):
 
 
 def string_to_rostime(time_string):
+    """Converts a string to rostime, expects correct format"""
     # Split the string into seconds and nanoseconds parts
     secs_str, nsecs_str = time_string.split(".")
 

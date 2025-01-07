@@ -1,10 +1,10 @@
 <?xml version="1.0"?>
 <package format="2">
   <name>lfe_data_fuser</name>
-  <version>0.0.0</version>
-  <description>TODO: Package description</description>
+  <version>0.0.1</version>
+  <description>Data fusion for the onlina adaptive TE module for ForestTrav</description>
   <maintainer email="fabio.ruetz@gmail.com">ros</maintainer>
-  <license>TODO: License declaration</license>
+  <license>MIT</license>
 
   <buildtool_depend>catkin</buildtool_depend>
   <depend>rospy</depend>
