@@ -6,7 +6,7 @@ NVE is a mono repo for the for traverasbilit estimation (TE) using 3D probalisti
 
 This workspace depends on ros noetic and combines functionally the packages required to enable navigation in vegetated environments
 
-The primary target is ROS noetic on Unbuntu 20.04, am64 and used CUDA > 11.7.nvidia/cuda:11.7.1-cudnn8-devel-ubuntu20.04  
+The primary target is ROS noetic on Unbuntu 20.04, amd64, CUDA 11.7 and TorchSparse
 
 The pakcages are managed using vcs-tools. We avoid the use of submodules on purpose for this repo. 
 
@@ -17,6 +17,8 @@ The pakcages are managed using vcs-tools. We avoid the use of submodules on purp
 - Pytorch Lightning 
 - TorchSparse 2.0.0b
 - OHM: Occupancy Homogenous Mapping
+
+We use docker and the nvidia image `11.7.nvidia/cuda:11.7.1-cudnn8-devel-ubuntu20.04` to build ontop of it. 
 
 # Table of Contents
 - [Paper and Video](#paper-and-video)
