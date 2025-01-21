@@ -1,8 +1,0 @@
-# python-minimalmodbus-pip:
-#   ubuntu:
-#     pip:
-#       packages: [minimalmodbus]
-# python-py4j-pip:
-#   ubuntu:
-#     pip:
-#       packages: [py4j]
