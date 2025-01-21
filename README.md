@@ -4,32 +4,12 @@ NVE is a mono repo for the for traverasbilit estimation (TE) using 3D probalisti
 
 # Overview
 
-This workspace depends on ros noetic and combines functionally the packages required to enable navigation in vegetated environments. 
+This workspace depends on ros noetic and combines functionally the packages required to enable navigation in vegetated environments for the ForestTrav method.
 
-The primary target is ROS noetic on Unbuntu 20.04, amd64, CUDA 11.7 and TorchSparse
+The primary targets platform are ROS noetic on Unbuntu 20.04, amd64, CUDA 11.7 and TorchSparse. This packages requires an nvidia GPU.
 
-The pakcages are managed using vcs-tools. We avoid the use of submodules on purpose for this repo. 
+# Installation
 
-
-
-
-## Main Dependencies
-- Ubuntu 20.04
-- CUDA 11.7.1
-- Pytorch 11.8
-- Pytorch Lightning 
-- TorchSparse 2.0.0b
-- OHM: Occupancy Homogenous Mapping
-
-We use docker and the nvidia image `11.7.nvidia/cuda:11.7.1-cudnn8-devel-ubuntu20.04` to build ontop of it. 
-
-# Table of Contents
-- [Paper and Video](#paper-and-video)
-- [Instalation](#installation)  
-- [Training a new model](#running-model)
-
-
-## Installation and Building the Code
 This repo relies on docker and `VSCode` with `Dev Containter` addon to run. Within the docker container, the main workspace will be under `/foresttrav_ws`. The data or training data is assumed to be under `/data`. 
 - [VSCode](https://code.visualstudio.com/)
   - [DevContainer](https://code.visualstudio.com/docs/devcontainers/containers)
@@ -38,14 +18,17 @@ This repo relies on docker and `VSCode` with `Dev Containter` addon to run. With
 - [Docker](https://docs.docker.com/engine/install/)
 
 
-### Pulling the repository
+## Pulling the repository
 This repository uses submodules. Use the following command to pull the repo with all the correct modules and commits.
 ```bash
 git clone --recursive https://github.com/csiro-robotics/foresttrav.git
 ```
 
-### Building the docker image and source rep
-1. Open vscode, `CTRL-P` and choose `Dev Conainters: Build and Open`
+## Building the docker image and the source code
+Firtst, navigate to the sub-directory `docker` inside the repo and build the base image using `docker build . ` command. 
+
+Sedondly, build the docker image using vscode using `Dev Container`
+1. Open vscode with , `CTRL-P` and choose `Dev Conainters: Build and Open`
 2. In the root directory of the repo build it using `colcon` with the following command or use the `build task`, `CTRL-SHIFT-B` and `Build`:
   
    ```bash
@@ -55,16 +38,28 @@ git clone --recursive https://github.com/csiro-robotics/foresttrav.git
 
 The source code will be build inside the container and persist within the mounted repo.
 
-## Train and Run ForestTrav Models 
-ForestTrav models rely on the ForestTrav data set, available here. Recomendation is to download the `lfe_hl_0.1` data set. This is the data fusing self-supervised labelling of the robot with hand-labelling at 0.1m voxel resolution. 
+## Usage of ForestTrav 
+ForestTrav models rely on the [`ForestTrav Data Set`](https://data.csiro.au/collection/csiro:58941) and the [ForestTrav Rosbags](https://data.csiro.au/collection/csiro:58941)
+
+Recommendation is to download the `lfe_hl_0.1` data set. This is the data fusing self-supervised labelling of the robot with hand-labelling at 0.1m voxel resolution. 
 
 ### How to train a new model
-To train a new model, use the `train_model.py` in `scnn_tm` package. All of the configurations are stored in `scnn_tm/config/default_model_train.yaml`
+To train a new model, use the `train_model.py` in `odap_tm` package. All of the configurations are stored in `odap_tm/config/default_model_train.yaml`
 
-### How to run a ForestTrav model
-To run a new model, use the `te_estimation.launch` from the `nve_statup` pkg. The ForestTrav Rosbags can be found [here](https://data.csiro.au/collection/csiro:58941)
+
+### How to run a ForestTrav online with a rosbag
+To run a new model, use the `te_estimator.launch` from the `nve_startup` pkg. The ForestTrav Rosbags can be found [here](https://data.csiro.au/collection/csiro:58941)
+In therminal 1 run:
 ```bash
-roslaunch nve_startup te_estimation.launch
+roslaunch nve_startup te_estimator.launch
+```
+In terminal 2 navigate into the directory of the data sets and play the rosbag:
+```
+rosbag play *
+```
+To view the robot model and the point cloud run 
+``` bash
+roslaunch nve_startup show_squash.launch
 ```
 
 # Assumptions about data and representation:
@@ -95,3 +90,13 @@ Please cite XXXX if you are using the online ROS-bags or the online adaptive tra
 }
 ```
 
+# Main Dependencies to run without Docker
+The following are the main dependencies required to be installed if one would like to run without the docker container, and wont be supported.
+- Ubuntu 20.04
+- CUDA 11.7.1
+- Pytorch 11.8
+- Pytorch Lightning 
+- TorchSparse 2.0.0b
+- OHM: Occupancy Homogenous Mapping
+
+We use docker and the nvidia image `11.7.nvidia/cuda:11.7.1-cudnn8-devel-ubuntu20.04` to build ontop of it. 
