@@ -1,3 +1,10 @@
+# MIT License
+#
+# Copyright (c) 2023 Commonwealth Scientific and Industrial Research Organisation (CSIRO)
+# Queensland University of Technology (QUT)
+# 
+# Author: Fabio Ruetz
+
 from pathlib import Path
 
 import numpy as np

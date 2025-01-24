@@ -60,7 +60,7 @@ set(SOURCES
   src/BinaryTeLabler.cpp
   src/GroundLabeler.cpp
   src/lfe_utils.cpp
-  src/OfflineVoxelLablerNode.cpp
+  # src/OfflineVoxelLablerNode.cpp
 )
 
 set(PUBLIC_HEADERS
@@ -71,7 +71,7 @@ set(PUBLIC_HEADERS
   src/BinaryTeLablerROS.h
   src/tinycolourmap.h
   src/lfe_utils.h
-  src/OfflineVoxelLablerNode.h
+  # src/OfflineVoxelLablerNode.h
   src/GroundLabeler.h
 )
 
@@ -99,13 +99,13 @@ target_link_libraries(${PROJECT_NAME} Eigen3::Eigen ohm::ohm ohm::slamio  ${catk
 
 
 ## Declare cpp executables
-add_executable(offline_te_labeler_node src/OfflineTeLabelingNode.cpp)
-target_link_libraries(offline_te_labeler_node ${PROJECT_NAME} )
+# add_executable(offline_te_labeler_node src/OfflineTeLabelingNode.cpp)
+# target_link_libraries(offline_te_labeler_node ${PROJECT_NAME} )
 
 
 # Mark executables and/or libraries for installation
 install(
-  TARGETS   ${PROJECT_NAME} offline_te_labeler_node
+  TARGETS   ${PROJECT_NAME} 
   ARCHIVE DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
   LIBRARY DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
   RUNTIME DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}

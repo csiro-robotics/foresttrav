@@ -50,32 +50,32 @@ catkin_package(
   LIBRARIES
     ${PROJECT_NAME}
   CATKIN_DEPENDS
-    cv_bridge
+    # cv_bridge
   # DEPENDS
 )
 
 set(SOURCES
-  src/ColourFuser.cpp
+  # src/ColourFuser.cpp
   src/CsvWriter.cpp
-  src/FeatureExtractor.cpp
-  src/GroundMapInterface.cpp
-  src/NdtApperanceRayFuser.cpp
-  src/OhmVoxelStatistic.cpp
-  src/RayBuffer.cpp
-  src/VafUtils.cpp
+  # src/FeatureExtractor.cpp
+  # src/GroundMapInterface.cpp
+  # src/NdtApperanceRayFuser.cpp
+  # src/OhmVoxelStatistic.cpp
+  # src/RayBuffer.cpp
+  # src/VafUtils.cpp
 )
 
 set(PUBLIC_HEADERS
   src/Types.h
-  src/FeatureExtractor.h
-  src/ColourFuser.h
-  src/RayBuffer.h
-  src/NdtApperanceRayFuser.h
-  src/VafUtils.h
-  src/VisabilityAssesser.h
-  src/GroundMapInterface.h
+  # src/FeatureExtractor.h
+  # src/ColourFuser.h
+  # src/RayBuffer.h
+  # src/NdtApperanceRayFuser.h
+  # src/VafUtils.h
+  # src/VisabilityAssesser.h
+  # src/GroundMapInterface.h
   src/CsvWriter.h
-  src/OhmVoxelStatistic.h
+  # src/OhmVoxelStatistic.h
 )
 
 add_library(${PROJECT_NAME} ${SOURCES})

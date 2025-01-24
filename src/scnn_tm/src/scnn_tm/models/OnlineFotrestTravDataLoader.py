@@ -1,9 +1,9 @@
-# Copyright (c) 2024
-# Commonwealth Scientific and Industrial Research Organisation (CSIRO)
-# Queensland University of Technology (QUT)
+# MIT License
 #
-# Author:Fabio Ruetz
-
+# Copyright (c) 2024 Commonwealth Scientific and Industrial Research Organisation (CSIRO)
+# Queensland University of Technology (QUT)
+# 
+# Author: Fabio Ruetz
 
 from pathlib import Path
 import h5py

@@ -1,7 +1,13 @@
+# MIT License
+#
+# Copyright (c) 2023 Commonwealth Scientific and Industrial Research Organisation (CSIRO)
+# Queensland University of Technology (QUT)
+# 
+# Author: Fabio Ruetz
+
 import numpy as np
 import open3d as o3d
 
-import matplotlib
 from matplotlib import pyplot as plt
 
 

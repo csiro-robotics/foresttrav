@@ -1,24 +1,23 @@
 <launch>
     <arg name="robot_name" default="r6" />
 
-    
+
     <group ns="$(arg robot_name)">
         <remap from="/tf" to="tf" />
         <remap from="/tf_static" to="tf_static" />
-        
+
         <!-- Convert Xacro to URDF -->
-    <param name="robot_description" command="$(find xacro)/xacro $(find csiro_data61_dtr_sensor_config_1)/urdf/robot_from_sdf.xacro name:=$(arg robot_name)" />
-    <node pkg="tf2_ros" type="static_transform_publisher" name="to_model"
-        args="0 0 0 0 0 0.0 1.0 base_link r6/base_link" />
-  
-    <!-- Start the robot state publisher -->
-    <node name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher" />
-  
-    <!-- Start the joint state publisher GUI -->
-    <node name="joint_state_publisher" pkg="joint_state_publisher_gui" type="joint_state_publisher_gui" />
-  
-    <!-- Start RViz -->
-    <node name="rviz_2" pkg="rviz" type="rviz" args="-d /nve_ws/rviz/te_mapping.rviz" required="true" />
-  </group>
-  </launch>
+        <param name="robot_description" command="$(find xacro)/xacro $(find csiro_data61_dtr_sensor_config_1)/urdf/robot_from_sdf.xacro name:=$(arg robot_name)" />
+        <node pkg="tf2_ros" type="static_transform_publisher" name="to_model" args="0 0 0 0 0 0.0 1.0 base_link r6/base_link" />
+
+        <!-- Start the robot state publisher -->
+        <node name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher" />
+
+        <!-- Start the joint state publisher GUI -->
+        <node name="joint_state_publisher" pkg="joint_state_publisher_gui" type="joint_state_publisher_gui" />
+
+        <!-- Start RViz -->
+        <node name="rviz_2" pkg="rviz" type="rviz" args="-d /nve_ws/rviz/te_mapping.rviz" required="true" />
+    </group>
+</launch>
   

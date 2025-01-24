@@ -2,9 +2,9 @@
 <package format="2">
   <name>ros_scnn_tm</name>
   <version>0.0.0</version>
-  <description>TODO: Package description</description>
+  <description>ROS Nodes for the ForestTrav</description>
   <maintainer email="fabio.ruetz@gmail.com">ros</maintainer>
-  <license>TODO: License declaration</license>
+  <license>MIT</license>
 
   <buildtool_depend>catkin</buildtool_depend>
   

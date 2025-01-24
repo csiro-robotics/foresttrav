@@ -1,3 +1,9 @@
+# MIT License
+#
+# Copyright (c) 2024 Commonwealth Scientific and Industrial Research Organisation (CSIRO)
+# Queensland University of Technology (QUT)
+# 
+# Author: Fabio Ruetz
 import torch
 import torch.nn as nn
 

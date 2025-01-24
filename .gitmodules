@@ -1,0 +1,6 @@
+[submodule "src/ohm"]
+	path = src/ohm
+	url = https://github.com/fabioruetz/ohm.git
+[submodule "src/ros_numpy"]
+	path = src/ros_numpy
+	url = git@github.com:fabioruetz/ros_numpy.git

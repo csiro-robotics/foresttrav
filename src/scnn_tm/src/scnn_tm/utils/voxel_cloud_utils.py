@@ -1,4 +1,9 @@
-import time
+# MIT License
+#
+# Copyright (c) 2023 Commonwealth Scientific and Industrial Research Organisation (CSIRO)
+# Queensland University of Technology (QUT)
+# 
+# Author: Fabio Ruetz
 
 import numpy as np
 from sklearn.neighbors import KDTree

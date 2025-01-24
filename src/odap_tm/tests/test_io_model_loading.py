@@ -1,3 +1,9 @@
+# MIT License
+#
+# Copyright (c) 2024 Commonwealth Scientific and Industrial Research Organisation (CSIRO)
+# Queensland University of Technology (QUT)
+# 
+# Author: Fabio Ruetz
 from pathlib import Path
 from odap_tm.models.io_model_parsing import model_config_from_file
 

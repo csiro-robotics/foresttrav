@@ -1,3 +1,9 @@
+# MIT License
+#
+# Copyright (c) 2023 Commonwealth Scientific and Industrial Research Organisation (CSIRO)
+# Queensland University of Technology (QUT)
+# 
+# Author: Fabio Ruetz
 
 import numpy as np
 from torchsparse.utils.collate import sparse_collate_fn

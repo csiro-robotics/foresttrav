@@ -13,11 +13,6 @@
   <arg if="$(eval arg('robot') == 'squash')" name="robot_name" default="r6" />
   <arg if="$(eval arg('robot') == 'squash')" name="self_strike" default="squash" />
 
-  <!-- Rat -->
-  <arg if="$(eval arg('robot') == 'rat')" name="pack" default="p18" />
-  <arg if="$(eval arg('robot') == 'rat')" name="platform" default="rat" />
-  <arg if="$(eval arg('robot') == 'rat')" name="robot_name" default="r1" />
-  <arg if="$(eval arg('robot') == 'rat')" name="self_strike" default="rat" />
 
   <arg name="ROSCONSOLE_FORMAT" default="${severity} ${time} ${node}: ${message}" />
   <env name="ROSCONSOLE_FORMAT" value="$(arg ROSCONSOLE_FORMAT)" />
@@ -26,33 +21,21 @@
     <remap from="/tf" to="tf" />
     <remap from="/tf_static" to="tf_static" />
 
-    <!-- Loading all parameters -->  
+    <!-- Loading all parameters -->
     <node pkg="ros_scnn_tm" type="scnn_ftm_ros.py" name="scnn_ftm_ros" clear_params="true" output="screen">
-      <!-- <param name="~model_dir"  value="/data/base_models/industrial_base/24_04_22_15_28_UNet4THM_occ_int_test_train"/> -->
-      <!-- <param name="~model_dir"  value="/data/base_models/industrial_base/24_04_22_15_53_UNet4THM_ohm_test_train"/> -->
 
-      <param name="~model_dir"  value="/data/base_models_24_5_16_hl/dense_base/24_05_16_11_15_UNet4LMCD_occ_int_hm_mr_test_train_epoch_150_fn_12"/>
-          
-      <param name="cv_start"  value="0"/>
-      <param name="cv_number"  value="10"/>
-      <param name="device"  value="cuda"/>
+      <param name="~model_dir" value="/data/base_models_24_5_16_hl/dense_base/24_05_16_11_15_UNet4LMCD_occ_int_hm_mr_test_train_epoch_150_fn_12"/>
+
+      <param name="cv_start" value="0"/>
+      <param name="cv_number" value="10"/>
+      <param name="device" value="cuda"/>
       <param name="visualise_colour" value="True"/>
       <param name="costmap_conversion" value="False"/>
 
       <remap from="~input_feature_cloud" to="ohm" />
       <remap from="~tep_cloud" to="~traversability_cloud" />
-      
+
     </node>
-
-     <!-- <node pkg="nve_costmap_converter" type="costmap_converter_node" name="costmap_converter_node" clear_params="true" output="screen">
-      <rosparam command="load" file="$(find nve_costmap_converter)/config/costmap_converter_params.yaml"/>
-      
-      <remap from="~te_cloud_topic" to="scnn_ftm_ros/traversability_cloud" />
-      
-    </node>  -->
-
-  
-      
 
   </group>
 

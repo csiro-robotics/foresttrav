@@ -1,5 +1,6 @@
-// Copyright (c) 2022
-// Commonwealth Scientific and Industrial Research Organisation (CSIRO)
+// MIT
+//
+// Copyright (c) 2024 Commonwealth Scientific and Industrial Research Organisation (CSIRO) 
 // Queensland University of Technology (QUT)
 //
 // Author:Fabio Ruetz
