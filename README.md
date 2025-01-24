@@ -54,11 +54,11 @@ In therminal 1 run:
 roslaunch nve_startup te_estimator.launch
 ```
 In terminal 2 navigate into the directory of the data sets and play the rosbag:
-```
+```bash
 rosbag play *
 ```
 To view the robot model and the point cloud run 
-``` bash
+```bash
 roslaunch nve_startup show_squash.launch
 ```
 
