@@ -241,7 +241,7 @@ auto Ohm2dCostmapGenerator::generateVirtualCost(std::vector<double> const &roi, 
         }
       }
 
-      // / If there eare not enough neighboors to make a good estimate, do nothing
+      // / If there are not enough neighbours to make a good estimate, do nothing
       if (params_.min_adj_voxel > num_adj_voxel)
       {
         /// Only need this if we intend to use the flood fill afterwards
@@ -302,7 +302,7 @@ auto Ohm2dCostmapGenerator::generateVirtualCost(std::vector<double> const &roi, 
         }
       }
 
-      // / If there eare not enough neighbors to make a good estimate, do nothing
+      // / If there are not enough neighbors to make a good estimate, do nothing
       if (params_.min_adj_voxel > num_adj_voxel)
       {
         continue;

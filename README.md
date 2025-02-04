@@ -1,16 +1,16 @@
 # Navigation in Vegetated environments (NVE)
 
-NVE is a mono repo for the for traverasbilit estimation (TE) using 3D probalistic voxels and online adaptive TE estimation.
+NVE is a mono repo for traversability estimation (TE) using 3D probabilistic voxels and online adaptive TE estimation.
 
 # Overview
 
 This workspace depends on ros noetic and combines functionally the packages required to enable navigation in vegetated environments for the ForestTrav method.
 
-The primary targets platform are ROS noetic on Unbuntu 20.04, amd64, CUDA 11.7 and TorchSparse. This packages requires an nvidia GPU.
+The primary targets platform are ROS noetic on Ubuntu 20.04, amd64, CUDA 11.7 and TorchSparse. This packages requires an nvidia GPU.
 
 # Installation
 
-This repo relies on docker and `VSCode` with `Dev Containter` addon to run. Within the docker container, the main workspace will be under `/foresttrav_ws`. The data or training data is assumed to be under `/data`. 
+This repo relies on docker and `VSCode` with `Dev Container` addon to run. Within the docker container, the main workspace will be under `/foresttrav_ws`. The data or training data is assumed to be under `/data`. 
 - [VSCode](https://code.visualstudio.com/)
   - [DevContainer](https://code.visualstudio.com/docs/devcontainers/containers)
 - [Nvidia Cuda Toolkit](https://developer.nvidia.com/cuda-downloads)
@@ -25,10 +25,11 @@ git clone --recursive https://github.com/csiro-robotics/foresttrav.git
 ```
 
 ## Building the docker image and the source code
-Firtst, navigate to the sub-directory `docker` inside the repo and build the base image using `docker build . ` command. 
+First, navigate to the sub-directory `docker` inside the repo and build the base image using `docker build -t nve_ml_ros:latest .` command. 
+The devcontainer will try to mount the `/home/${USER}/data` directory. Either create this directory or change the mount command in [`.devcontainer/devcontainer.json`](.devcontainer/devcontainer.json#l45)
 
-Sedondly, build the docker image using vscode using `Dev Container`
-1. Open vscode with , `CTRL-P` and choose `Dev Conainters: Build and Open`
+Secondly, build the docker image using vscode using `Dev Container`
+1. Open vscode with , `CTRL-P` and choose `Dev Containers: Build and Open`
 2. In the root directory of the repo build it using `colcon` with the following command or use the `build task`, `CTRL-SHIFT-B` and `Build`:
   
    ```bash
@@ -49,7 +50,7 @@ To train a new model, use the `train_model.py` in `odap_tm` package. All of the 
 
 ### How to run a ForestTrav online with a rosbag
 To run a new model, use the `te_estimator.launch` from the `nve_startup` pkg. The ForestTrav Rosbags can be found [here](https://data.csiro.au/collection/csiro:58941)
-In therminal 1 run:
+In terminal 1 run:
 ```bash
 roslaunch nve_startup te_estimator.launch
 ```
@@ -65,9 +66,9 @@ roslaunch nve_startup show_squash.launch
 # Assumptions about data and representation:
 For all the packages, the map or world representation is assumed to be static and grid aligned world frame. Further, each voxel is assumed to contain one, and only one point or distribution.
 
-# Refrence
+# Reference
 
-Please cite ForestTrav paper if you are using the traversbiliy estimation or the the ForestTrav data set. 
+Please cite the [ForestTrav paper](https://ieeexplore.ieee.org/abstract/document/10458917) if you are using the traversability estimation or the the ForestTrav data set. 
 
 ```latex
 @article{ruetz2024foresttrav,
@@ -78,15 +79,14 @@ Please cite ForestTrav paper if you are using the traversbiliy estimation or the
   publisher={IEEE}
 }
 ```
-Please cite XXXX if you are using the online ROS-bags or the online adaptive traversability estmimation extension for ForestTrav.
+Please cite XXXX if you are using the online ROS-bags or the online adaptive traversability estimation extension for ForestTrav.
 ```latex
 @article{ruetz2024adaptive,
-  title={Adaptive Online Traversability Estimation For Unstrucutred, Densely Vegetated Environemtns},
+  title={Adaptive Online Traversability Estimation For Unstructured, Densely Vegetated Environments},
   author={Ruetz, Fabio and Lawrance, Nicholas and Hern{\'a}ndez, Emili and Borges, Paulo and Peynot, Thierry},
   journal={preprint},
   year={2024},
   publisher={-}
-
 }
 ```
 
@@ -99,4 +99,4 @@ The following are the main dependencies required to be installed if one would li
 - TorchSparse 2.0.0b
 - OHM: Occupancy Homogenous Mapping
 
-We use docker and the nvidia image `11.7.nvidia/cuda:11.7.1-cudnn8-devel-ubuntu20.04` to build ontop of it. 
+We use docker and the nvidia image `11.7.nvidia/cuda:11.7.1-cudnn8-devel-ubuntu20.04` to build on top of it. 

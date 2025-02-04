@@ -26,7 +26,7 @@ namespace nve_core
 //   explicit OhmApperanceFuserBase(std::shared_ptr<ohm::OccupancyMap> map) { map_ = map; };
 
 //   template <class T>
-//   virtual void integrate(const std::vector<Eigen::Vector3d> &points, const std::vector<T> &meassurments);
+//   virtual void integrate(const std::vector<Eigen::Vector3d> &points, const std::vector<T> &measurements);
 
 //   virtual T getMeasurment(Eigen::Vector3d &point);
 
@@ -39,7 +39,7 @@ namespace nve_core
 
 
 /** @brief Endpoint Colour fuser
- *  Uses the colourization on point clouds method to fuse in colourized enpoint meassurments recursivly
+ *  Uses the colourization on point clouds method to fuse in colourized enpoint measurements recursivly
  *  We use the ohm::Voxelapperance to set the colours
  *  Each colour channel is assumed to be independent. 
  **/
