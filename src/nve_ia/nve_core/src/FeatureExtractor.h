@@ -103,9 +103,9 @@ public:
   std::vector<std::vector<double>> extractFeatureByRegion(const ohm::KeyRange &key_range,
                                                           std::unordered_map<ohm::Key, unsigned int> &key_to_featureid);
 
-  /// @brief Given a set of keys defining a neighboorhood this will add all features as a mean
+  /// @brief Given a set of keys defining a neighbourhood this will add all features as a mean
   /// @param original_key The key of the original voxel which is used to extract the features
-  /// @param keys The keys of the neighboorhood
+  /// @param keys The keys of the neighbourhood
   /// @param features The feature vector which will be appended the adjance features to
   bool appendFeatureByNeighboorhood(const ohm::Key &original_key, const std::vector<ohm::Key> &keys, std::vector<double> &features);
 

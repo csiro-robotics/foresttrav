@@ -92,7 +92,7 @@ RUN apt-get update && apt-get install libsparsehash-dev \
 # ###########################################
 # #  ROS INSTALL
 # ###########################################
-FROM dev_nve_noetic_headless AS dev_nve_noetic
+FROM nve_ml_torchsparse AS dev_nve_noetic
 
 # Install ROS
 RUN apt-get update && apt-get install -y \

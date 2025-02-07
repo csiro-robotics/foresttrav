@@ -54,7 +54,7 @@ std::vector<std::vector<double>> FeatureExtractor::extractFeatureByRegion(
     key_to_featureid[key_i] = feature_maxtrix.size() - 1;
   }
 
-  /// Generate the neighboor feature list
+  /// Generate the neighbour feature list
   for (auto it = key_to_featureid.begin(); it != key_to_featureid.end(); it++)
   {
     auto local_keys = local_key_range(it->first, empty_voxel_keys);

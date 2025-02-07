@@ -234,7 +234,7 @@ auto CollisionMapperRos::collision_state_cb(const ros::TimerEvent &) -> void
   if ((rc_collision_state == params_.state_neutral_label) ||
       (ros::Time::now() - last_collision_update_) < ros::Duration(params_.dt_collision_reset))
   {
-    ROS_DEBUG_THROTTLE_NAMED(10.0, tag, "No meassurments received");
+    ROS_DEBUG_THROTTLE_NAMED(10.0, tag, "No measurements received");
     return;
   }
 
@@ -482,7 +482,7 @@ auto CollisionMapperRos::publish_colision_cloud(const std::vector<double> &map_r
     {
       continue;
     }
-    /// If occupied or has n meassurments
+    /// If occupied or has n measurements
     pcl::PointXYZI pcl_point;
     auto pos = map_->voxelCentreGlobal(key);
 

@@ -20,7 +20,7 @@ namespace nve_lfe
 enum TeLabel
 {
   Uninitialized = 0,
-  Collision = 1,  // This can refer to non-traversbale or a collision event
+  Collision = 1,  // This can refer to non-traversable or a collision event
   Free = 2, // This can refer to traversable or free space depending on the labeller
   Unknown = 3,
 };

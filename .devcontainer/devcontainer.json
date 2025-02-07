@@ -42,7 +42,7 @@
 		"type=bind,source=/etc/localtime,destination=/etc/localtime,readonly",
 		"type=bind,source=/tmp/.X11-unix,destination=/tmp/.X11-unix",
 		"type=bind,source=${localEnv:XAUTHORITY},destination=/home/vscode/.Xauthority",
-		"type=bind,source=/home/${localEnv:USER}/data,destination=/data",
+		"type=bind,source=/home/${localEnv:USER}/data,destination=/data"
 	],
 	"containerEnv": {
 		"DISPLAY": "${localEnv:DISPLAY}",
@@ -62,7 +62,7 @@
 		"--runtime",
 		"nvidia",
 		"--name",
-		"nve-os-defcontainer"
+		"nve-os-devcontainer"
 	],
 	"postCreateCommand": "sudo chown -R vscode /ccache",
 	"remoteUser": "ros",

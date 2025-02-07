@@ -207,7 +207,7 @@ void OfflineVoxelLablerNode::generateDebugCloud()
     {
       continue;
     }
-    /// If occupied or has n meassurments
+    /// If occupied or has n measurements
     ohm::setVoxelKey(key, mean_layer);
     ohm::VoxelMean voxel_data;
     mean_layer.read(&voxel_data);
@@ -287,7 +287,7 @@ auto OfflineVoxelLablerNode::extractPerVoxelFeatures() -> void
 
   ohm::SemanticLabel label{};
   ohm::Voxel<ohm::VoxelMean> mean_layer(map_.get(), map_->layout().meanLayer());
-  /// This is an expensive loop that checks a) That the voxel has lfe data AND some meassurments, where
+  /// This is an expensive loop that checks a) That the voxel has lfe data AND some measurements, where
   /// the number 4 is arbitrary
   for (auto &key : key_range)
   {
@@ -296,7 +296,7 @@ auto OfflineVoxelLablerNode::extractPerVoxelFeatures() -> void
     {
       continue;
     }
-    /// If occupied or has n meassurments and
+    /// If occupied or has n measurements and
     ohm::setVoxelKey(key, mean_layer);
     if ((mean_layer.data().count < params_.min_voxel_count) and (params_.min_voxel_count > 0))
     {
