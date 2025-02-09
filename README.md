@@ -40,7 +40,7 @@ Secondly, build the docker image using vscode using `Dev Container`
 The source code will be build inside the container and persist within the mounted repo.
 
 ## Usage of ForestTrav 
-ForestTrav models rely on the [`ForestTrav Data Set`](https://data.csiro.au/collection/csiro:58941) and the [ForestTrav Rosbags](https://data.csiro.au/collection/csiro:58941)
+ForestTrav models rely on the [`ForestTrav Data Set`](https://data.csiro.au/collection/csiro:58941) and the [`ForestTrav Rosbags`](http://hdl.handle.net/102.100.100/660831)
 
 Recommendation is to download the `lfe_hl_0.1` data set. This is the data fusing self-supervised labelling of the robot with hand-labelling at 0.1m voxel resolution. 
 
@@ -72,14 +72,17 @@ Please cite the [ForestTrav paper](https://ieeexplore.ieee.org/abstract/document
 
 ```latex
 @article{ruetz2024foresttrav,
-  title={ForestTrav: 3D LiDAR-only forest traversability estimation for autonomous ground vehicles},
-  author={Ruetz, Fabio and Lawrance, Nicholas and Hern{\'a}ndez, Emili and Borges, Paulo and Peynot, Thierry},
-  journal={IEEE Access},
+  author={Ruetz, Fabio A. and Lawrance, Nicholas and Hernández, Emili and Borges, Paulo V. K. and Peynot, Thierry},
+  journal={IEEE Access}, 
+  title={{ForestTrav}: 3D {LiDAR}-Only Forest Traversability Estimation for Autonomous Ground Vehicles},
   year={2024},
-  publisher={IEEE}
+  volume={12},
+  pages={37192-37206},
+  doi={10.1109/ACCESS.2024.337300}
 }
 ```
-Please cite XXXX if you are using the online ROS-bags or the online adaptive traversability estimation extension for ForestTrav.
+
+Please cite the following if you are using the online ROS-bags or the online adaptive traversability estimation extension for ForestTrav.
 ```latex
 @article{ruetz2024adaptive,
   title={Adaptive Online Traversability Estimation For Unstructured, Densely Vegetated Environments},
