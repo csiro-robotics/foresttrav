@@ -72,7 +72,7 @@ Please cite the [ForestTrav paper](https://ieeexplore.ieee.org/abstract/document
 
 ```latex
 @article{ruetz2024foresttrav,
-  author={Ruetz, Fabio A. and Lawrance, Nicholas and Hernández, Emili and Borges, Paulo V. K. and Peynot, Thierry},
+  author={Ruetz, Fabio A. and Lawrance, Nicholas and Hern{\'a}ndez, Emili and Borges, Paulo V. K. and Peynot, Thierry},
   journal={IEEE Access}, 
   title={{ForestTrav}: 3D {LiDAR}-Only Forest Traversability Estimation for Autonomous Ground Vehicles},
   year={2024},
