@@ -78,7 +78,7 @@ Please cite the [ForestTrav paper](https://ieeexplore.ieee.org/abstract/document
   year={2024},
   volume={12},
   pages={37192-37206},
-  doi={10.1109/ACCESS.2024.337300}
+  doi={10.1109/ACCESS.2024.3373004}
 }
 ```
 
